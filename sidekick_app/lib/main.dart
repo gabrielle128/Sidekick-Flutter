@@ -1,9 +1,20 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sidekick_app/screens/welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  if (kIsWeb) {
+    await Firebase.initializeApp(
+        options: const FirebaseOptions(
+            apiKey: "AIzaSyACB6nWFNDqXJ7bjbmYCqPLRlAquTXU89c",
+            appId: "1:295527037220:web:3ae2b3b571acd8a1055bb1",
+            messagingSenderId: "295527037220",
+            projectId: "sidekickapp-10912"));
+  }
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
 import 'package:sidekick_app/screens/home_screen.dart';
@@ -62,8 +63,19 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 20,
             ),
             loginSignupButton(context, true, () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const HomeScreen()));
+              FirebaseAuth.instance
+                  .signInWithEmailAndPassword(
+                      email: _emailTextController.text,
+                      password: _passwordTextController.text)
+                  .then((value) {
+                print("Login Sucessfully");
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HomeScreen()));
+              }).onError((error, stackTrace) {
+                print("Error ${error.toString()}");
+              });
             }),
             signUpOption()
           ]),
@@ -76,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text("Don't have account yet?",
+        const Text("Don't have account?",
             style: TextStyle(color: Colors.black)),
         GestureDetector(
           onTap: () {

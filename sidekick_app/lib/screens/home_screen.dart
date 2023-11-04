@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sidekick_app/screens/welcome_screen.dart';
 
@@ -16,8 +17,13 @@ class _HomeScreenState extends State<HomeScreen> {
         child: ElevatedButton(
           child: const Text("Logout"),
           onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const WelcomeScreen()));
+            FirebaseAuth.instance.signOut().then((value) {
+              print("Signed Out");
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const WelcomeScreen()));
+            });
           },
         ),
       ),
