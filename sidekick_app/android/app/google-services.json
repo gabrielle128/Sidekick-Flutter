@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "295527037220",
+    "project_id": "sidekickapp-10912",
+    "storage_bucket": "sidekickapp-10912.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:295527037220:android:61622c0b36b2e089055bb1",
+        "android_client_info": {
+          "package_name": "com.example.sidekick"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6JvYi1G3bSVp7U8C5QpmflghQmne3Sj0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:295527037220:android:061d2d388178d313055bb1",
+        "android_client_info": {
+          "package_name": "com.example.sidekick_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6JvYi1G3bSVp7U8C5QpmflghQmne3Sj0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
