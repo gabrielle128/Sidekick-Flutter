@@ -85,6 +85,9 @@ flutter:
     - family: Gaegu-Light
       fonts:
         - asset: assets/fonts/Gaegu-Light.ttf
+    - family: SidekickIcons
+      fonts:
+        - asset: assets/fonts/SidekickIcons.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

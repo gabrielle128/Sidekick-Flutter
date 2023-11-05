@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:sidekick_app/navigation_menu.dart';
 import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
-import 'package:sidekick_app/screens/home_screen.dart';
 import 'package:sidekick_app/screens/signup_screen.dart';
 import 'package:sidekick_app/utils/colours.dart';
 
@@ -70,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const HomeScreen()));
+                        builder: (context) => const NavigationMenu()));
               }).onError((error, stackTrace) {
                 print("Error ${error.toString()}");
               });
