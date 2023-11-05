@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
 import 'package:sidekick_app/screens/home_screen.dart';
 import 'package:sidekick_app/screens/login_screen.dart';
+import 'package:sidekick_app/utils/colours.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -75,7 +76,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     fontSize: 10,
                     fontWeight: FontWeight.normal),
               ),
-              loginSignupButton(context, false, () {
+              loginSignupButton(context, mustard, false, () {
                 FirebaseAuth.instance
                     .createUserWithEmailAndPassword(
                         email: _emailTextController.text,

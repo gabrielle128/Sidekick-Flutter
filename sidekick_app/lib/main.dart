@@ -32,6 +32,8 @@ class MyApp extends StatelessWidget {
       title: 'Sidekick',
       theme:
           ThemeData(scaffoldBackgroundColor: bgcolor, fontFamily: 'Gaegu-Bold'),
+      darkTheme: ThemeData(brightness: Brightness.dark),
+      themeMode: ThemeMode.light,
       home: const WelcomeScreen(),
     );
   }

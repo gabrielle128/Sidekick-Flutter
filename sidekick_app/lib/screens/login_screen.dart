@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
 import 'package:sidekick_app/screens/home_screen.dart';
 import 'package:sidekick_app/screens/signup_screen.dart';
+import 'package:sidekick_app/utils/colours.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -44,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(children: <Widget>[
             const Text(
               "Sidekick",
-              style: TextStyle(color: Colors.black, fontSize: 50),
+              style: TextStyle(color: black, fontSize: 50),
             ),
             const SizedBox(
               height: 50,
@@ -59,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(
               height: 20,
             ),
-            loginSignupButton(context, true, () {
+            loginSignupButton(context, mustard, true, () {
               FirebaseAuth.instance
                   .signInWithEmailAndPassword(
                       email: _emailTextController.text,

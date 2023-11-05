@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sidekick_app/utils/colours.dart';
 
 Image logoWidget(String imageName) {
   return Image.asset(
@@ -6,7 +7,7 @@ Image logoWidget(String imageName) {
     fit: BoxFit.fitWidth,
     width: 200,
     height: 200,
-    color: Colors.black,
+    color: black,
   );
 }
 
@@ -17,15 +18,15 @@ TextField reusableTextField(String text, IconData icon, bool isPasswordType,
     obscureText: isPasswordType,
     enableSuggestions: !isPasswordType,
     autocorrect: !isPasswordType,
-    cursorColor: Colors.white,
-    style: const TextStyle(color: Colors.black),
+    cursorColor: black,
+    style: const TextStyle(color: black),
     decoration: InputDecoration(
         prefixIcon: Icon(
           icon,
           color: Colors.grey,
         ),
         labelText: text,
-        labelStyle: TextStyle(color: Colors.grey.withOpacity(0.9)),
+        labelStyle: TextStyle(color: grey.withOpacity(0.9)),
         filled: true,
         floatingLabelBehavior: FloatingLabelBehavior.never,
         fillColor: Colors.white.withOpacity(0.3),
@@ -39,11 +40,12 @@ TextField reusableTextField(String text, IconData icon, bool isPasswordType,
 }
 
 Container loginSignupButton(
-    BuildContext context, bool isLogin, Function onTap) {
+    BuildContext context, Color color, bool isLogin, Function onTap) {
   return Container(
     width: MediaQuery.of(context).size.width,
     height: 50,
     margin: const EdgeInsets.fromLTRB(0, 10, 0, 20),
+    padding: const EdgeInsets.fromLTRB(80, 0, 80, 0),
     decoration: BoxDecoration(borderRadius: BorderRadius.circular(90)),
     child: ElevatedButton(
       onPressed: () {
@@ -54,14 +56,13 @@ Container loginSignupButton(
             if (states.contains(MaterialState.pressed)) {
               return Colors.black26;
             }
-            return Colors.white;
+            return color;
           }),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)))),
       child: Text(
         isLogin ? 'LOG IN' : 'SIGN UP',
-        style: const TextStyle(
-            color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 16),
+        style: const TextStyle(color: black, fontSize: 20),
       ),
     ),
   );

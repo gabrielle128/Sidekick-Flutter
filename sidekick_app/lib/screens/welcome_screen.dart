@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
 import 'package:sidekick_app/screens/login_screen.dart';
 import 'package:sidekick_app/screens/signup_screen.dart';
+import 'package:sidekick_app/utils/colours.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -32,13 +33,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               const SizedBox(
                 height: 80,
               ),
-              loginSignupButton(context, true, () {
+              loginSignupButton(context, mustard, false, () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => const LoginScreen()));
               }),
-              loginSignupButton(context, false, () {
+              loginSignupButton(context, navy, true, () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
