@@ -44,10 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(children: <Widget>[
             const Text(
               "Sidekick",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold),
+              style: TextStyle(color: Colors.black, fontSize: 50),
             ),
             const SizedBox(
               height: 50,
