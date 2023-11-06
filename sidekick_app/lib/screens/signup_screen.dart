@@ -76,7 +76,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     fontSize: 10,
                     fontWeight: FontWeight.normal),
               ),
-              loginSignupButton(context, mustard, false, () {
+              loginSignupButton(context, mustard, 'SIGN UP', () {
                 FirebaseAuth.instance
                     .createUserWithEmailAndPassword(
                         email: _emailTextController.text,

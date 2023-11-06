@@ -33,13 +33,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               const SizedBox(
                 height: 80,
               ),
-              loginSignupButton(context, mustard, false, () {
+              loginSignupButton(context, mustard, 'SIGN UP', () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => const SignUpScreen()));
               }),
-              loginSignupButton(context, navy, true, () {
+              loginSignupButton(context, navy, 'LOG IN', () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(

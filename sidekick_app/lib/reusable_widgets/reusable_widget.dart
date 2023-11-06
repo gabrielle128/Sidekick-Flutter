@@ -40,7 +40,7 @@ TextField reusableTextField(String text, IconData icon, bool isPasswordType,
 }
 
 Container loginSignupButton(
-    BuildContext context, Color color, bool isLogin, Function onTap) {
+    BuildContext context, Color color, String text, Function onTap) {
   return Container(
     width: MediaQuery.of(context).size.width,
     height: 50,
@@ -61,7 +61,7 @@ Container loginSignupButton(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)))),
       child: Text(
-        isLogin ? 'LOG IN' : 'SIGN UP',
+        text,
         style: const TextStyle(color: black, fontSize: 20),
       ),
     ),

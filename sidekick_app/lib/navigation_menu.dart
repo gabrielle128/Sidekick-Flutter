@@ -44,11 +44,17 @@ class _NavigationMenuState extends State<NavigationMenu> {
               BottomNavigationBarItem(
                   icon: Icon(SidekickIcons.hut), label: 'Home'),
               BottomNavigationBarItem(
-                  icon: Icon(SidekickIcons.to_do_list), label: 'To Do'),
+                  icon: Icon(SidekickIcons.toDoList), label: 'To Do'),
               BottomNavigationBarItem(
                   icon: Icon(SidekickIcons.journal), label: 'Journal'),
               BottomNavigationBarItem(
                   icon: Icon(SidekickIcons.wallet), label: 'Wallet'),
+
+              // <--- TO IMPORT IMAGE AS ICON --->
+              // BottomNavigationBarItem(
+              //     icon: ImageIcon(AssetImage("assets/images/sidekick_logo.png"),
+              //         size: 24),
+              //     label: 'sidekick')
             ]),
       ),
       body: pages[myCurrentIndex],
