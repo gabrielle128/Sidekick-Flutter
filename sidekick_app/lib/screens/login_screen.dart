@@ -17,6 +17,14 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordTextController = TextEditingController();
 
   @override
+  void dispose() {
+    _emailTextController.dispose();
+    _passwordTextController.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       // extendBodyBehindAppBar: true,
@@ -60,26 +68,26 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(
               height: 20,
             ),
-            loginSignupButton(context, mustard, 'LOG IN', () {
-              FirebaseAuth.instance
-                  .signInWithEmailAndPassword(
-                      email: _emailTextController.text,
-                      password: _passwordTextController.text)
-                  .then((value) {
-                print("Login Sucessfully");
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const NavigationMenu()));
-              }).onError((error, stackTrace) {
-                print("Error ${error.toString()}");
-              });
-            }),
+            loginSignupButton(context, mustard, 'LOG IN', login),
             signUpOption()
           ]),
         )),
       ),
     );
+  }
+
+  Future login() async {
+    await FirebaseAuth.instance
+        .signInWithEmailAndPassword(
+            email: _emailTextController.text,
+            password: _passwordTextController.text)
+        .then((value) {
+      print("Login Sucessfully");
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const NavigationMenu()));
+    }).onError((error, stackTrace) {
+      print("Error ${error.toString()}");
+    });
   }
 
   Row signUpOption() {

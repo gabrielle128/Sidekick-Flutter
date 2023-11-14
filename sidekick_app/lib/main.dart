@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:sidekick_app/navigation_menu.dart';
 import 'package:sidekick_app/screens/welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:sidekick_app/utils/colours.dart';
@@ -34,7 +36,24 @@ class MyApp extends StatelessWidget {
           ThemeData(scaffoldBackgroundColor: bgcolor, fontFamily: 'Gaegu-Bold'),
       darkTheme: ThemeData(brightness: Brightness.dark),
       themeMode: ThemeMode.light,
-      home: const WelcomeScreen(),
+      home: const MainPage(),
     );
   }
+}
+
+class MainPage extends StatelessWidget {
+  const MainPage({super.key});
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+          body: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return const NavigationMenu();
+          } else {
+            return const WelcomeScreen();
+          }
+        },
+      ));
 }

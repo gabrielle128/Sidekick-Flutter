@@ -10,6 +10,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final user = FirebaseAuth.instance.currentUser!;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,3 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+// Text(
+//   user.email!,
+//   style: TextStyle(fontSize: 20, color: black);
+// )
