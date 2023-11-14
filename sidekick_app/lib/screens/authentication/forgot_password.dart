@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
-import 'package:sidekick_app/screens/welcome_screen.dart';
 import 'package:sidekick_app/utils/colours.dart';
 
 class ForgotPassword extends StatefulWidget {
@@ -17,6 +16,19 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        leading: const BackButton(
+          color: black,
+        ),
+        backgroundColor: bgcolor,
+        elevation: 5,
+        title: const Text(
+          "Reset Password",
+          style: TextStyle(
+              color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
+        ),
+      ),
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -26,13 +38,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               20, MediaQuery.of(context).size.height * 0.2, 20, 0),
           child: Column(children: <Widget>[
             const Text(
-              "Forgot Password",
-              style: TextStyle(color: black, fontSize: 30),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            const Text(
               "Receive an email to\nreset your password.",
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -41,7 +46,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   fontWeight: FontWeight.normal),
             ),
             const SizedBox(
-              height: 30,
+              height: 50,
             ),
             reusableTextField("Email Address", Icons.email_outlined, false,
                 _emailTextController),
@@ -65,9 +70,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     try {
       await FirebaseAuth.instance
           .sendPasswordResetEmail(email: _emailTextController.text.trim());
+      // ignore: use_build_context_synchronously
       Navigator.of(context).popUntil((route) => route.isFirst);
     } on FirebaseAuthException catch (e) {
+      // ignore: avoid_print
       print(e);
+      // ignore: use_build_context_synchronously
       Navigator.of(context).pop();
     }
   }

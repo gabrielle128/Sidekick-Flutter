@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:sidekick_app/main.dart';
 import 'package:sidekick_app/navigation_menu.dart';
 import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
-import 'package:sidekick_app/screens/login_screen.dart';
+import 'package:sidekick_app/screens/authentication/login_screen.dart';
 import 'package:sidekick_app/utils/colours.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -23,16 +23,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // extendBodyBehindAppBar: true,
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent,
-      //   elevation: 0,
-      //   title: const Text(
-      //     "Sign Up",
-      //     style: TextStyle(
-      //         color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
-      //   ),
-      // ),
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -97,6 +87,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             MaterialPageRoute(builder: (context) => const NavigationMenu()));
       });
     } on FirebaseAuthException catch (e) {
+      // ignore: avoid_print
       print(e);
     }
 

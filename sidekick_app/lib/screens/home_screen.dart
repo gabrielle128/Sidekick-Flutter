@@ -20,6 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: const Text("Logout"),
           onPressed: () {
             FirebaseAuth.instance.signOut().then((value) {
+              // ignore: avoid_print
               print("Signed Out");
               Navigator.push(
                   context,

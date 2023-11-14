@@ -14,7 +14,7 @@ Image logoWidget(String imageName) {
 Padding reusableTextField(String text, IconData icon, bool isPasswordType,
     TextEditingController controller) {
   return Padding(
-    padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+    padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
     child: TextField(
       controller: controller,
       obscureText: isPasswordType,

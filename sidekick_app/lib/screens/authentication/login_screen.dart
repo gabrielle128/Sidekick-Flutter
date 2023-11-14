@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:sidekick_app/main.dart';
 import 'package:sidekick_app/navigation_menu.dart';
 import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
-import 'package:sidekick_app/screens/forgot_password.dart';
-import 'package:sidekick_app/screens/signup_screen.dart';
+import 'package:sidekick_app/screens/authentication/forgot_password.dart';
+import 'package:sidekick_app/screens/authentication/signup_screen.dart';
 import 'package:sidekick_app/utils/colours.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -29,16 +29,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // extendBodyBehindAppBar: true,
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent,
-      //   elevation: 0,
-      //   title: const Text(
-      //     "Log in",
-      //     style: TextStyle(
-      //         color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
-      //   ),
-      // ),
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -91,7 +81,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   MaterialPageRoute(
                       builder: (context) => const SignUpScreen()));
             }),
-            // signUpOption()
           ]),
         )),
       ),
@@ -115,29 +104,10 @@ class _LoginScreenState extends State<LoginScreen> {
             MaterialPageRoute(builder: (context) => const NavigationMenu()));
       });
     } on FirebaseAuthException catch (e) {
+      // ignore: avoid_print
       print(e);
     }
 
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
-  }
-
-  Row signUpOption() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Text("Don't have account?",
-            style: TextStyle(color: Colors.black)),
-        GestureDetector(
-          onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const SignUpScreen()));
-          },
-          child: const Text(
-            " Sign Up",
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-          ),
-        )
-      ],
-    );
   }
 }

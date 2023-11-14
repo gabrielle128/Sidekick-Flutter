@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
-import 'package:sidekick_app/screens/login_screen.dart';
-import 'package:sidekick_app/screens/signup_screen.dart';
+import 'package:sidekick_app/screens/authentication/login_screen.dart';
+import 'package:sidekick_app/screens/authentication/signup_screen.dart';
 import 'package:sidekick_app/utils/colours.dart';
 
 class WelcomeScreen extends StatefulWidget {
