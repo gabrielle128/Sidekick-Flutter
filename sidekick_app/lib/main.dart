@@ -24,6 +24,8 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
+final navigatorKey = GlobalKey<NavigatorState>();
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -31,6 +33,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       title: 'Sidekick',
       theme:
           ThemeData(scaffoldBackgroundColor: bgcolor, fontFamily: 'Gaegu-Bold'),
@@ -49,7 +52,14 @@ class MainPage extends StatelessWidget {
           body: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState) {
+            return const Center(
+                child: CircularProgressIndicator(color: yellow));
+          } else if (snapshot.hasError) {
+            return const Center(
+              child: Text('Something went wrong.'),
+            );
+          } else if (snapshot.hasData) {
             return const NavigationMenu();
           } else {
             return const WelcomeScreen();

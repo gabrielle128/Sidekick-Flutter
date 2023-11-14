@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:sidekick_app/main.dart';
 import 'package:sidekick_app/navigation_menu.dart';
 import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
+import 'package:sidekick_app/screens/forgot_password.dart';
 import 'package:sidekick_app/screens/signup_screen.dart';
 import 'package:sidekick_app/utils/colours.dart';
 
@@ -69,7 +71,27 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 20,
             ),
             loginSignupButton(context, mustard, 'LOG IN', login),
-            signUpOption()
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ForgotPassword()));
+              },
+              child: const Text("Forgot Password?",
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.bold)),
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            loginSignupButton(context, navy, 'CREATE', () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SignUpScreen()));
+            }),
+            // signUpOption()
           ]),
         )),
       ),
@@ -77,17 +99,26 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future login() async {
-    await FirebaseAuth.instance
-        .signInWithEmailAndPassword(
-            email: _emailTextController.text,
-            password: _passwordTextController.text)
-        .then((value) {
-      print("Login Sucessfully");
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const NavigationMenu()));
-    }).onError((error, stackTrace) {
-      print("Error ${error.toString()}");
-    });
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: ((context) =>
+            const Center(child: CircularProgressIndicator(color: yellow))));
+
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+              email: _emailTextController.text,
+              password: _passwordTextController.text)
+          .then((value) {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const NavigationMenu()));
+      });
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
+
+    navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 
   Row signUpOption() {

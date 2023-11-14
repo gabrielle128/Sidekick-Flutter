@@ -11,31 +11,35 @@ Image logoWidget(String imageName) {
   );
 }
 
-TextField reusableTextField(String text, IconData icon, bool isPasswordType,
+Padding reusableTextField(String text, IconData icon, bool isPasswordType,
     TextEditingController controller) {
-  return TextField(
-    controller: controller,
-    obscureText: isPasswordType,
-    enableSuggestions: !isPasswordType,
-    autocorrect: !isPasswordType,
-    cursorColor: black,
-    style: const TextStyle(color: black),
-    decoration: InputDecoration(
-        prefixIcon: Icon(
-          icon,
-          color: Colors.grey,
-        ),
-        labelText: text,
-        labelStyle: TextStyle(color: grey.withOpacity(0.9)),
-        filled: true,
-        floatingLabelBehavior: FloatingLabelBehavior.never,
-        fillColor: Colors.white.withOpacity(0.3),
-        border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30.0),
-            borderSide: const BorderSide(width: 0, style: BorderStyle.none))),
-    keyboardType: isPasswordType
-        ? TextInputType.visiblePassword
-        : TextInputType.emailAddress,
+  return Padding(
+    padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+    child: TextField(
+      controller: controller,
+      obscureText: isPasswordType,
+      enableSuggestions: !isPasswordType,
+      autocorrect: !isPasswordType,
+      cursorColor: black,
+      textInputAction: TextInputAction.done,
+      style: const TextStyle(color: black),
+      decoration: InputDecoration(
+          prefixIcon: Icon(
+            icon,
+            color: Colors.grey,
+          ),
+          labelText: text,
+          labelStyle: TextStyle(color: grey.withOpacity(0.9)),
+          filled: true,
+          floatingLabelBehavior: FloatingLabelBehavior.never,
+          fillColor: Colors.white.withOpacity(0.3),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(30.0),
+              borderSide: const BorderSide(width: 0, style: BorderStyle.none))),
+      keyboardType: isPasswordType
+          ? TextInputType.visiblePassword
+          : TextInputType.emailAddress,
+    ),
   );
 }
 

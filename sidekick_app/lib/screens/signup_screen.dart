@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:sidekick_app/main.dart';
+import 'package:sidekick_app/navigation_menu.dart';
 import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
-import 'package:sidekick_app/screens/home_screen.dart';
 import 'package:sidekick_app/screens/login_screen.dart';
 import 'package:sidekick_app/utils/colours.dart';
 
@@ -70,27 +71,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     fontSize: 10,
                     fontWeight: FontWeight.normal),
               ),
-              loginSignupButton(context, mustard, 'SIGN UP', () {
-                FirebaseAuth.instance
-                    .createUserWithEmailAndPassword(
-                        email: _emailTextController.text,
-                        password: _passwordTextController.text)
-                    .then((value) {
-                  print("Created New Account");
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const HomeScreen()));
-                }).onError((error, stackTrace) {
-                  print("Error ${error.toString()}");
-                });
-              }),
+              loginSignupButton(context, mustard, 'SIGN UP', signup),
               loginOption()
             ]),
           ),
         ),
       ),
     );
+  }
+
+  Future signup() async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: ((context) =>
+            const Center(child: CircularProgressIndicator(color: yellow))));
+
+    try {
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: _emailTextController.text,
+              password: _passwordTextController.text)
+          .then((value) {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const NavigationMenu()));
+      });
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
+
+    navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 
   Row loginOption() {
