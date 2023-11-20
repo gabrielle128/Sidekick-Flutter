@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
 import 'package:sidekick_app/utils/colours.dart';
+import 'package:sidekick_app/utils/utils.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
@@ -75,6 +76,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     } on FirebaseAuthException catch (e) {
       // ignore: avoid_print
       print(e);
+
+      // ignore: use_build_context_synchronously
+      Utils.showSnackBar(context, e.message);
+
       // ignore: use_build_context_synchronously
       Navigator.of(context).pop();
     }

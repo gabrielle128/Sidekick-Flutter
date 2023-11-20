@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sidekick_app/utils/colours.dart';
 
+// logo
 Image logoWidget(String imageName) {
   return Image.asset(
     imageName,
@@ -11,6 +12,7 @@ Image logoWidget(String imageName) {
   );
 }
 
+// login text field
 Padding reusableTextField(String text, IconData icon, bool isPasswordType,
     TextEditingController controller) {
   return Padding(
@@ -43,6 +45,41 @@ Padding reusableTextField(String text, IconData icon, bool isPasswordType,
   );
 }
 
+// sign up text field
+Padding reusableFormField(
+  TextEditingController controller,
+  bool isPasswordType,
+  IconData icon,
+  String label,
+  String? Function(String?) validator,
+) {
+  return Padding(
+    padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+    child: TextFormField(
+      controller: controller,
+      cursorColor: black,
+      textInputAction: TextInputAction.next,
+      obscureText: isPasswordType,
+      decoration: InputDecoration(
+          prefixIcon: Icon(
+            icon,
+            color: Colors.grey,
+          ),
+          labelText: label,
+          labelStyle: TextStyle(color: grey.withOpacity(0.9)),
+          filled: true,
+          floatingLabelBehavior: FloatingLabelBehavior.never,
+          fillColor: Colors.white.withOpacity(0.3),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(30.0),
+              borderSide: const BorderSide(width: 0, style: BorderStyle.none))),
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: validator,
+    ),
+  );
+}
+
+// login sign up button
 Container loginSignupButton(
     BuildContext context, Color color, String text, Function onTap) {
   return Container(

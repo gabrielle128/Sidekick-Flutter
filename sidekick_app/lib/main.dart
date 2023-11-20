@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:sidekick_app/navigation_menu.dart';
+import 'package:sidekick_app/screens/authentication/verify_email.dart';
 import 'package:sidekick_app/screens/welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:sidekick_app/utils/colours.dart';
@@ -25,6 +25,7 @@ Future<void> main() async {
 }
 
 final navigatorKey = GlobalKey<NavigatorState>();
+final messengerKey = GlobalKey<ScaffoldMessengerState>();
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -52,6 +53,7 @@ class MainPage extends StatelessWidget {
           body: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
+          // ignore: unrelated_type_equality_checks
           if (snapshot.connectionState == ConnectionState) {
             return const Center(
                 child: CircularProgressIndicator(color: yellow));
@@ -60,7 +62,7 @@ class MainPage extends StatelessWidget {
               child: Text('Something went wrong.'),
             );
           } else if (snapshot.hasData) {
-            return const NavigationMenu();
+            return const VerifyEmail();
           } else {
             return const WelcomeScreen();
           }
