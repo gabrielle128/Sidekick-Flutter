@@ -17,6 +17,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final user = FirebaseAuth.instance.currentUser!;
 
+  late DateTime _focusedDay = DateTime.now();
+  late DateTime _firstDay = DateTime.now().subtract(const Duration(days: 1000));
+  late DateTime _lastDay = DateTime.now().add(const Duration(days: 1000));
+  late DateTime _selectedDay = DateTime.now();
+  late CalendarFormat _calendarFormat = CalendarFormat.month;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,28 +57,43 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.fromLTRB(15.0, 0, 15.0, 0),
                 child: TableCalendar(
                   locale: "en_US",
-                  focusedDay: DateTime.now(),
-                  firstDay: DateTime.utc(1950, 1, 1),
-                  lastDay: DateTime.utc(2050, 12, 31),
+                  focusedDay: _focusedDay,
+                  firstDay: _firstDay,
+                  lastDay: _lastDay,
+                  calendarFormat: _calendarFormat,
+                  onFormatChanged: ((format) => setState(() {
+                        _calendarFormat = format;
+                        _focusedDay = _focusedDay;
+                      })),
+                  selectedDayPredicate: (day) => isSameDay(day, _selectedDay),
+                  onDaySelected: (selectedDay, focusedDay) {
+                    setState(() {
+                      _selectedDay = selectedDay;
+                      _focusedDay = focusedDay;
+                    });
+                  },
                   rowHeight: 60,
                   daysOfWeekHeight: 50,
                   headerStyle: const HeaderStyle(
-                      formatButtonVisible: false,
                       titleCentered: true,
                       titleTextStyle: TextStyle(
-                        fontSize: 30,
+                        fontSize: 22,
                       ),
-                      headerMargin: EdgeInsets.only(bottom: 15.0)),
+                      formatButtonShowsNext: false,
+                      headerMargin: EdgeInsets.only(bottom: 15.0),
+                      formatButtonTextStyle: TextStyle(fontSize: 12)),
                   daysOfWeekStyle: DaysOfWeekStyle(
                       dowTextFormatter: (date, locale) =>
                           DateFormat.E(locale).format(date)[0],
-                      weekdayStyle: const TextStyle(fontSize: 18),
-                      weekendStyle: const TextStyle(fontSize: 18)),
+                      weekdayStyle: const TextStyle(fontSize: 20),
+                      weekendStyle: const TextStyle(fontSize: 20)),
                   calendarStyle: const CalendarStyle(
                       defaultTextStyle: TextStyle(fontSize: 18),
                       weekendTextStyle: TextStyle(fontSize: 18),
-                      todayTextStyle: TextStyle(color: black),
-                      todayDecoration: BoxDecoration(
+                      todayTextStyle: TextStyle(color: black, fontSize: 18),
+                      todayDecoration: BoxDecoration(color: skyblue),
+                      selectedTextStyle: TextStyle(color: black, fontSize: 18),
+                      selectedDecoration: BoxDecoration(
                           color: Color.fromARGB(255, 190, 188, 188))),
                 ),
               )
