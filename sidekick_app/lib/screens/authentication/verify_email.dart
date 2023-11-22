@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:sidekick_app/navigation_menu.dart';
 import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
-import 'package:sidekick_app/screens/home_screen.dart';
 import 'package:sidekick_app/utils/colours.dart';
 import 'package:sidekick_app/utils/utils.dart';
 
@@ -72,7 +72,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
 
   @override
   Widget build(BuildContext context) => isEmailVerified
-      ? const HomeScreen()
+      ? const NavigationMenu()
       : Scaffold(
           appBar: AppBar(
             backgroundColor: bgcolor,
