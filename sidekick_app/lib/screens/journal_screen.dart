@@ -13,7 +13,7 @@ class _JournalScreenState extends State<JournalScreen> {
     return const Scaffold(
         body: Center(
       child: Text(
-        "Journal Screen",
+        "Journal Screen ni Papa",
         style: TextStyle(fontSize: 40),
       ),
     ));
