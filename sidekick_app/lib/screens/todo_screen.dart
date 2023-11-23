@@ -13,7 +13,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
     return const Scaffold(
         body: Center(
       child: Text(
-        "To Do Screen parang malaki ganon diba",
+        "To Do Screen parang malaki ganon diba isa pang demo push",
         style: TextStyle(fontSize: 40),
       ),
     ));
