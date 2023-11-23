@@ -36,8 +36,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       navigatorKey: navigatorKey,
       title: 'Sidekick',
-      theme:
-          ThemeData(scaffoldBackgroundColor: bgcolor, fontFamily: 'Gaegu-Bold'),
+      theme: ThemeData(
+          scaffoldBackgroundColor: bgcolor,
+          fontFamily: 'Gaegu-Bold',
+          appBarTheme: const AppBarTheme(backgroundColor: navy)),
       darkTheme: ThemeData(brightness: Brightness.dark),
       themeMode: ThemeMode.light,
       home: const MainPage(),

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:sidekick_app/screens/account/account_screen.dart';
+import 'package:sidekick_app/screens/event/add_event.dart';
 import 'package:sidekick_app/sidekick_icons_icons.dart';
 import 'package:sidekick_app/utils/colours.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -18,8 +20,9 @@ class _HomeScreenState extends State<HomeScreen> {
   final user = FirebaseAuth.instance.currentUser!;
 
   late DateTime _focusedDay = DateTime.now();
-  late DateTime _firstDay = DateTime.now().subtract(const Duration(days: 1000));
-  late DateTime _lastDay = DateTime.now().add(const Duration(days: 1000));
+  late final DateTime _firstDay =
+      DateTime.now().subtract(const Duration(days: 1000));
+  late final DateTime _lastDay = DateTime.now().add(const Duration(days: 1000));
   late DateTime _selectedDay = DateTime.now();
   late CalendarFormat _calendarFormat = CalendarFormat.month;
 
@@ -40,7 +43,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: black,
                     size: 50,
                   ),
-                  onPressed: () => FirebaseAuth.instance.signOut(),
+                  onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AccountScreen())),
                 ))
           ],
         ),
@@ -99,24 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
               )
             ],
           ),
-        )
-
-        // body: Center(
-        //   child: ElevatedButton(
-        //     child: const Text("Logout"),
-        //     onPressed: () {
-        //       FirebaseAuth.instance.signOut().then((value) {
-        //         // ignore: avoid_print
-        //         print("Signed Out");
-        //         Navigator.push(
-        //             context,
-        //             MaterialPageRoute(
-        //                 builder: (context) => const WelcomeScreen()));
-        //       });
-        //     },
-        //   ),
-        // ),
-        );
+        ));
   }
 
   // quick action button
@@ -152,7 +141,8 @@ class _HomeScreenState extends State<HomeScreen> {
           child: const Icon(SidekickIcons.event),
           backgroundColor: yellow,
           label: 'Event',
-          onTap: () => showToast('Add Event...'),
+          onTap: () => Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const AddEventPage())),
         ),
       ],
     );
