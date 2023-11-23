@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sidekick_app/main.dart';
@@ -6,6 +7,7 @@ import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
 import 'package:sidekick_app/screens/authentication/forgot_password.dart';
 import 'package:sidekick_app/screens/authentication/signup_screen.dart';
 import 'package:sidekick_app/utils/colours.dart';
+import 'package:sidekick_app/utils/utils.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -50,13 +52,25 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(
               height: 50,
             ),
-            reusableTextField("Email Address", Icons.person_outline, false,
-                _emailTextController),
+            reusableFormField(
+                _emailTextController,
+                false,
+                Icons.person_outline,
+                'Email Address',
+                (email) => email != null && !EmailValidator.validate(email)
+                    ? 'Enter a valid email'
+                    : null),
             const SizedBox(
               height: 30,
             ),
-            reusableTextField(
-                "Password", Icons.lock_outline, true, _passwordTextController),
+            reusableFormField(
+                _passwordTextController,
+                true,
+                Icons.lock_outlined,
+                'Password',
+                (value) => value != null && value.length < 6
+                    ? 'Enter mininum of 6 characters'
+                    : null),
             const SizedBox(
               height: 20,
             ),
@@ -106,6 +120,9 @@ class _LoginScreenState extends State<LoginScreen> {
     } on FirebaseAuthException catch (e) {
       // ignore: avoid_print
       print(e);
+
+      // ignore: use_build_context_synchronously
+      Utils.showSnackBar(context, e.message);
     }
 
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
