@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
 import 'package:sidekick_app/screens/account/account_screen.dart';
 import 'package:sidekick_app/screens/event/add_event.dart';
 import 'package:sidekick_app/sidekick_icons_icons.dart';
@@ -146,12 +146,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ],
     );
-  }
-
-  Future showToast(String message) async {
-    await Fluttertoast.cancel();
-
-    Fluttertoast.showToast(msg: message, fontSize: 18);
   }
 }
 

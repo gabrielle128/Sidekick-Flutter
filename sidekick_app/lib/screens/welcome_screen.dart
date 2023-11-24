@@ -29,7 +29,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             padding: EdgeInsets.fromLTRB(
                 20, MediaQuery.of(context).size.height * 0.2, 20, 0),
             child: Column(children: <Widget>[
-              logoWidget("assets/images/sidekick_logo.png"),
+              logoWidget("assets/images/sidekick_logo.png", 200, 200),
               const SizedBox(
                 height: 80,
               ),
