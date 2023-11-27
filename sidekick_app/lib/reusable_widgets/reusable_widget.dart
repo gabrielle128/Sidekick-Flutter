@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:sidekick_app/sidekick_icons_icons.dart';
 import 'package:sidekick_app/utils/colours.dart';
 
 // toast - placeholder for action buttons
 Future showToast(String message) async {
   await Fluttertoast.cancel();
 
-  Fluttertoast.showToast(msg: message, fontSize: 18);
+  Fluttertoast.showToast(msg: message, fontSize: 15);
 }
 
 // logo
@@ -121,10 +120,9 @@ Container loginSignupButton(
 Container accountButton(BuildContext context, Color color, IconData icon,
     String text, Function onTap) {
   return Container(
-    width: MediaQuery.of(context).size.width,
+    width: MediaQuery.of(context).size.width * 0.6,
     height: 40,
     margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-    padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
     decoration: BoxDecoration(borderRadius: BorderRadius.circular(90)),
     child: ElevatedButton(
       onPressed: () {

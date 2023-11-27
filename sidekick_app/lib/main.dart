@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
       title: 'Sidekick',
       theme: ThemeData(
           scaffoldBackgroundColor: bgcolor,
+          primaryColor: yellow,
           fontFamily: 'Gaegu-Bold',
           appBarTheme: const AppBarTheme(backgroundColor: navy)),
       darkTheme: ThemeData(brightness: Brightness.dark),
