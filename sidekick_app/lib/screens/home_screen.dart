@@ -21,6 +21,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   // define variables
+
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _selectedDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
@@ -78,23 +79,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 headerStyle: const HeaderStyle(
                     titleCentered: true,
                     titleTextStyle: TextStyle(
-                      fontSize: 22,
+                      fontSize: 30,
                     ),
                     formatButtonShowsNext: false,
                     headerMargin: EdgeInsets.only(bottom: 15.0),
-                    formatButtonTextStyle: TextStyle(fontSize: 12)),
+                    formatButtonTextStyle: TextStyle(fontSize: 15)),
                 daysOfWeekStyle: DaysOfWeekStyle(
                     dowTextFormatter: (date, locale) =>
                         DateFormat.E(locale).format(date)[0],
-                    weekdayStyle: const TextStyle(fontSize: 18),
-                    weekendStyle: const TextStyle(fontSize: 18)),
+                    weekdayStyle: const TextStyle(fontSize: 24),
+                    weekendStyle: const TextStyle(fontSize: 24)),
                 calendarStyle: const CalendarStyle(
-                    defaultTextStyle: TextStyle(fontSize: 16),
-                    weekendTextStyle: TextStyle(fontSize: 16),
-                    todayTextStyle: TextStyle(color: white, fontSize: 16),
+                    defaultTextStyle: TextStyle(fontSize: 20),
+                    weekendTextStyle: TextStyle(fontSize: 20),
+                    todayTextStyle: TextStyle(color: white, fontSize: 20),
                     todayDecoration: BoxDecoration(
                         color: Color.fromARGB(255, 111, 134, 172)),
-                    selectedTextStyle: TextStyle(color: white, fontSize: 16),
+                    selectedTextStyle: TextStyle(color: white, fontSize: 20),
                     selectedDecoration: BoxDecoration(color: navy)),
                 startingDayOfWeek: StartingDayOfWeek.sunday,
                 selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
@@ -168,33 +169,59 @@ class _HomeScreenState extends State<HomeScreen> {
     final selectedEvents = _events[_selectedDay]?.cast<Event>() ?? [];
     final focusedEvents = _events[_focusedDay]?.cast<Event>() ?? [];
 
-    final allEvents = <Event>{...selectedEvents, ...focusedEvents}.toList();
+    List<Event> allEvents = [];
+
+    if (_selectedDay != _focusedDay) {
+      // Display events for selected day only if it's different from focused day
+      allEvents.addAll(selectedEvents);
+    } else {
+      // Display events for focused day or selected day if it's the same
+      allEvents.addAll(focusedEvents);
+    }
 
     if (allEvents.isEmpty) {
+      // Show a message if there are no events for the focused day when it's selected
       return const Center(
         child: Text('No events'),
       );
     }
 
+    if (_selectedDay != _focusedDay) {
+      // Remove events for focused day from the list when selected day is not focused day
+      allEvents.removeWhere((event) => event.date == _focusedDay);
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: allEvents
-          .map((event) => GestureDetector(
-                onTap: () {
-                  _showEventDetailsDialog(context, event);
-                },
-                child: Card(
-                  color: bgcolorCV,
-                  shadowColor: black,
-                  elevation: 4,
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                  child: ListTile(
-                    title: Text(event.title),
-                    subtitle: Text(event.description),
+          .map(
+            (event) => GestureDetector(
+              onTap: () {
+                _showEventDetailsDialog(context, event);
+              },
+              child: Card(
+                color: offWhite,
+                shadowColor: black,
+                elevation: 3,
+                margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 20),
+                child: ListTile(
+                  contentPadding:
+                      const EdgeInsets.only(left: 30.0, right: 30.0),
+                  leading: const Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.title, size: 20.0), // Icon for title
+                      SizedBox(height: 4),
+                      Icon(Icons.description,
+                          size: 20.0), // Icon for description
+                    ],
                   ),
+                  title: Text(event.title),
+                  subtitle: Text(event.description),
                 ),
-              ))
+              ),
+            ),
+          )
           .toList(),
     );
   }
@@ -216,16 +243,26 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  // initialize the user and events from firestore
   @override
   void initState() {
     super.initState();
     getUser();
-    _getEventsFromFirestore();
+    _fetchEvents();
   }
 
-  // get events from firestore
-  void _getEventsFromFirestore() async {
+  Future<void> _fetchEvents() async {
+    await _getEventsFromFirestore();
+    if (!_isDisposed && _events[_focusedDay] == null) {
+      await _getEventsForFocusedDay();
+      if (!_isDisposed) {
+        setState(() {
+          _selectedDay = _focusedDay;
+        });
+      }
+    }
+  }
+
+  Future<void> _getEventsFromFirestore() async {
     try {
       final QuerySnapshot querySnapshot = await _firestore
           .collection('events')
@@ -247,51 +284,45 @@ class _HomeScreenState extends State<HomeScreen> {
         setState(() {
           _events = _groupEventsByDate(events);
         });
-
-        // Check if events for the focused day are present, if not, reload them
-        if (_events[_focusedDay] == null) {
-          await _getEventsForFocusedDay();
-        }
       }
     } catch (e) {
       // Handle error
     }
   }
 
-  // get events on focused day function
   Future<void> _getEventsForFocusedDay() async {
     try {
+      final focusedEventsSnapshot = await _firestore
+          .collection('events')
+          .doc(userId)
+          .collection(userEmail)
+          .where('date',
+              isGreaterThanOrEqualTo:
+                  _focusedDay.toIso8601String().substring(0, 10))
+          .where('date',
+              isLessThan: _focusedDay
+                  .add(const Duration(days: 1))
+                  .toIso8601String()
+                  .substring(0, 10))
+          .get();
+
+      final focusedEvents = focusedEventsSnapshot.docs.map((doc) {
+        final data = doc.data();
+        return Event(
+          id: doc.id,
+          title: data['title'],
+          description: data['description'],
+          date: DateTime.parse(data['date']),
+        );
+      }).toList();
+
       if (!_isDisposed) {
-        final focusedEventsSnapshot = await _firestore
-            .collection('events')
-            .doc(userId)
-            .collection(userEmail)
-            .where('date',
-                isGreaterThanOrEqualTo:
-                    _focusedDay.toIso8601String().substring(0, 10))
-            .where('date',
-                isLessThan: _focusedDay
-                    .add(const Duration(days: 1))
-                    .toIso8601String()
-                    .substring(0, 10))
-            .get();
-
-        final focusedEvents = focusedEventsSnapshot.docs.map((doc) {
-          final data = doc.data();
-          return Event(
-            id: doc.id,
-            title: data['title'],
-            description: data['description'],
-            date: DateTime.parse(data['date']),
-          );
-        }).toList();
-
-        if (!_isDisposed) {
-          setState(() {
-            _events[_focusedDay] = focusedEvents;
-          });
-        }
+        setState(() {
+          _events[_focusedDay] = focusedEvents;
+        });
       }
+      // ignore: avoid_print
+      print('Fetching events for focused day...');
     } catch (e) {
       // Handle error
     }
@@ -315,73 +346,160 @@ class _HomeScreenState extends State<HomeScreen> {
     return groupedEvents;
   }
 
-  // add event function
+  // method to add an event in firestore
   Future<void> _addEventToFirestore(
       String title, String description, DateTime date) async {
     final newEventId = Random()
         .nextInt(999999)
         .toString(); // Generate a unique ID for the new event
 
-    await _firestore
+    // Update local events first
+    setState(() {
+      if (_events[date] == null) {
+        _events[date] = [];
+      }
+      _events[date]!.add(Event(
+        id: newEventId,
+        title: title,
+        description: description,
+        date: date,
+      ));
+    });
+
+    // Add the event to Firestore
+    try {
+      await _firestore
+          .collection('events')
+          .doc(userId)
+          .collection(userEmail)
+          .doc(newEventId)
+          .set({
+        'title': title,
+        'description': description,
+        'date': date.toIso8601String(),
+      });
+    } catch (e) {
+      // Handle error
+      // If there's an error adding the event to Firestore, remove it from local events to keep consistency
+      setState(() {
+        _events[date]!.removeWhere((event) => event.id == newEventId);
+      });
+      return; // Exit function if Firestore update fails
+    }
+
+    // Trigger UI refresh by calling setState after local state update
+    setState(() {});
+
+    // Don't call _getEventsFromFirestore() here to avoid re-fetching events immediately after adding a new event
+  }
+
+  // method to update an event in firestore
+  Future<void> _updateEventInFirestore(Event event) async {
+    await FirebaseFirestore.instance
         .collection('events')
         .doc(userId)
         .collection(userEmail)
-        .doc(newEventId)
-        .set({
-      'title': title,
-      'description': description,
-      'date': date.toIso8601String(),
+        .doc(event.id)
+        .update({
+      'title': event.title,
+      'description': event.description,
+      'date': event.date.toIso8601String(),
     });
+  }
 
-    _getEventsFromFirestore();
+  // method to delete an event in firestore
+  Future<void> _deleteEventFromFirestore(Event event) async {
+    await FirebaseFirestore.instance
+        .collection('events')
+        .doc(userId)
+        .collection(userEmail)
+        .doc(event.id)
+        .delete();
   }
 
   // add event function
   void _showAddEventDialog(BuildContext context) {
+    bool _isTitleError = false;
+    bool _isDescriptionError = false;
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Add Event'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: _titleController,
-                decoration: const InputDecoration(
-                  labelText: 'Title',
-                ),
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: const Text('Create Event', textAlign: TextAlign.center),
+              backgroundColor: offWhite,
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    controller: _titleController,
+                    decoration: InputDecoration(
+                      labelText: 'Title',
+                      errorText: _isTitleError ? 'Title is required' : null,
+                      suffixIcon: _isTitleError
+                          ? const Icon(
+                              Icons.error,
+                              color: Colors.red,
+                            )
+                          : null,
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  TextField(
+                    controller: _descriptionController,
+                    decoration: InputDecoration(
+                      labelText: 'Description',
+                      errorText: _isDescriptionError
+                          ? 'Description is required'
+                          : null,
+                      suffixIcon: _isDescriptionError
+                          ? const Icon(
+                              Icons.error,
+                              color: Colors.red,
+                            )
+                          : null,
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: _descriptionController,
-                decoration: const InputDecoration(
-                  labelText: 'Description',
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text(
+                    'Cancel',
+                    style: TextStyle(color: Colors.black),
+                  ),
                 ),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                if (_titleController.text.isNotEmpty &&
-                    _descriptionController.text.isNotEmpty) {
-                  _addEventToFirestore(_titleController.text,
-                      _descriptionController.text, _selectedDay);
-                  _titleController.clear();
-                  _descriptionController.clear();
-                  Navigator.of(context).pop();
-                }
-              },
-              child: const Text('Add'),
-            ),
-          ],
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      _isTitleError = _titleController.text.isEmpty;
+                      _isDescriptionError = _descriptionController.text.isEmpty;
+                    });
+                    if (_titleController.text.isNotEmpty &&
+                        _descriptionController.text.isNotEmpty) {
+                      _addEventToFirestore(
+                        _titleController.text,
+                        _descriptionController.text,
+                        _selectedDay,
+                      );
+                      _titleController.clear();
+                      _descriptionController.clear();
+                      Navigator.of(context).pop();
+                    }
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(navy),
+                  ),
+                  child: const Text('Save'),
+                ),
+              ],
+            );
+          },
         );
       },
     );
@@ -398,7 +516,8 @@ class _HomeScreenState extends State<HomeScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Event Details'),
+          title: const Text('Event Details', textAlign: TextAlign.center),
+          backgroundColor: offWhite,
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -441,7 +560,8 @@ class _HomeScreenState extends State<HomeScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Edit Event'),
+          title: const Text('Edit Event', textAlign: TextAlign.center),
+          backgroundColor: offWhite,
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -461,7 +581,8 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('Cancel'),
+              child:
+                  const Text('Cancel', style: TextStyle(color: Colors.black)),
             ),
             ElevatedButton(
               onPressed: () {
@@ -477,36 +598,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       (route) => route.isFirst); // Return to the main screen
                 });
               },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(navy),
+              ),
               child: const Text('Update'),
             ),
           ],
         );
       },
     );
-  }
-
-  // update event function
-  Future<void> _updateEventInFirestore(Event event) async {
-    await FirebaseFirestore.instance
-        .collection('events')
-        .doc(userId)
-        .collection(userEmail)
-        .doc(event.id)
-        .update({
-      'title': event.title,
-      'description': event.description,
-      'date': event.date.toIso8601String(),
-    });
-  }
-
-  // delete event function
-  Future<void> _deleteEventFromFirestore(Event event) async {
-    await FirebaseFirestore.instance
-        .collection('events')
-        .doc(userId)
-        .collection(userEmail)
-        .doc(event.id)
-        .delete();
   }
 }
 
