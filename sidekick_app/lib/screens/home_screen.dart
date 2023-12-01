@@ -5,6 +5,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:intl/intl.dart';
 import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
 import 'package:sidekick_app/screens/account/account_screen.dart';
+import 'package:sidekick_app/screens/event/event_model.dart';
 import 'package:sidekick_app/sidekick_icons_icons.dart';
 import 'package:sidekick_app/utils/colours.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -79,11 +80,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 headerStyle: const HeaderStyle(
                     titleCentered: true,
                     titleTextStyle: TextStyle(
-                      fontSize: 30,
+                      fontSize: 26,
                     ),
                     formatButtonShowsNext: false,
                     headerMargin: EdgeInsets.only(bottom: 15.0),
-                    formatButtonTextStyle: TextStyle(fontSize: 15)),
+                    formatButtonTextStyle: TextStyle(fontSize: 12)),
                 daysOfWeekStyle: DaysOfWeekStyle(
                     dowTextFormatter: (date, locale) =>
                         DateFormat.E(locale).format(date)[0],
@@ -608,18 +609,4 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
   }
-}
-
-// Event Model
-class Event {
-  final String id;
-  final String title;
-  final String description;
-  final DateTime date;
-
-  Event(
-      {required this.id,
-      required this.title,
-      required this.description,
-      required this.date});
 }
