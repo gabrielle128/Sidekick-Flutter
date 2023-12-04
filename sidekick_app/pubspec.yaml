@@ -48,6 +48,7 @@ dependencies:
   form_builder_validators: ^9.1.0
   get: ^4.6.6
   riverpod: ^2.4.8
+  dropdown_button2: ^2.3.8
 
 dev_dependencies:
   flutter_test:
