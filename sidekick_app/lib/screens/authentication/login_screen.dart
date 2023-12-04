@@ -2,10 +2,8 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sidekick_app/main.dart';
-import 'package:sidekick_app/navigation_menu.dart';
 import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
-import 'package:sidekick_app/screens/authentication/forgot_password.dart';
-import 'package:sidekick_app/screens/authentication/signup_screen.dart';
+import 'package:sidekick_app/routes.dart';
 import 'package:sidekick_app/utils/colours.dart';
 import 'package:sidekick_app/utils/utils.dart';
 
@@ -77,10 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
             loginSignupButton(context, mustard, 'LOG IN', login),
             GestureDetector(
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ForgotPassword()));
+                Navigator.pushNamed(context, AppRoutes.forgotPassword);
               },
               child: const Text("Forgot Password?",
                   style: TextStyle(
@@ -90,10 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 50,
             ),
             loginSignupButton(context, navy, 'CREATE', () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const SignUpScreen()));
+              Navigator.pushNamed(context, AppRoutes.signup);
             }),
           ]),
         )),
@@ -114,8 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
               email: _emailTextController.text,
               password: _passwordTextController.text)
           .then((value) {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const NavigationMenu()));
+        Navigator.pushNamed(context, AppRoutes.navigation);
       });
     } on FirebaseAuthException catch (e) {
       // ignore: avoid_print

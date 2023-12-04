@@ -11,6 +11,7 @@ hexStringToColor(String hexColor) {
 // LIST OF COLORS
 
 const bgcolor = Color(0xFFDEDAD7);
+const offWhite = Color(0xFFFAF9F6);
 const bgcolorCV = Color(0xFFF3E9DD);
 const black = Color(0xFF000000);
 const white = Color(0xFFFFFFFF);

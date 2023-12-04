@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sidekick_app/utils/colours.dart';
 
+// toast - placeholder for action buttons
+Future showToast(String message) async {
+  await Fluttertoast.cancel();
+
+  Fluttertoast.showToast(msg: message, fontSize: 15);
+}
+
 // logo
-Image logoWidget(String imageName) {
+Image logoWidget(String imageName, double width, double height) {
   return Image.asset(
     imageName,
     fit: BoxFit.fitWidth,
-    width: 200,
-    height: 200,
+    width: width,
+    height: height,
     color: black,
   );
 }
@@ -105,6 +113,50 @@ Container loginSignupButton(
         text,
         style: const TextStyle(color: black, fontSize: 20),
       ),
+    ),
+  );
+}
+
+Container accountButton(BuildContext context, Color color, IconData icon,
+    String text, Function onTap) {
+  return Container(
+    width: MediaQuery.of(context).size.width * 0.6,
+    height: 40,
+    margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+    decoration: BoxDecoration(borderRadius: BorderRadius.circular(90)),
+    child: ElevatedButton(
+      onPressed: () {
+        onTap();
+      },
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.resolveWith((states) {
+            if (states.contains(MaterialState.pressed)) {
+              return Colors.black26;
+            }
+            return color;
+          }),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)))),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Icon(
+            icon,
+            color: black,
+          ),
+          const SizedBox(
+            width: 30,
+          ),
+          Text(
+            text,
+            style: const TextStyle(color: black, fontSize: 20),
+          ),
+        ],
+      ),
+      // child: Text(
+      //   text,
+      //   style: const TextStyle(color: black, fontSize: 20),
+      // ),
     ),
   );
 }

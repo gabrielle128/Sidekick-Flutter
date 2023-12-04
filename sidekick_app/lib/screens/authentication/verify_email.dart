@@ -1,11 +1,9 @@
 import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sidekick_app/navigation_menu.dart';
 import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
 import 'package:sidekick_app/utils/colours.dart';
-import 'package:sidekick_app/utils/utils.dart';
 
 class VerifyEmail extends StatefulWidget {
   const VerifyEmail({super.key});
@@ -43,31 +41,45 @@ class _VerifyEmailState extends State<VerifyEmail> {
   }
 
   Future checkEmailVerified() async {
-    await FirebaseAuth.instance.currentUser!.reload();
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      await user.reload();
 
-    setState(() {
-      isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
-    });
+      setState(() {
+        isEmailVerified = user.emailVerified;
+      });
 
-    if (isEmailVerified) timer?.cancel();
+      if (isEmailVerified) timer?.cancel();
+    }
   }
 
   Future sendVerificationEmail() async {
     try {
-      final user = FirebaseAuth.instance.currentUser!;
-      await user.sendEmailVerification();
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null && mounted) {
+        await user.sendEmailVerification();
 
-      setState(() => canResendEmail = false);
-      await Future.delayed(const Duration(seconds: 5));
-      setState(() => canResendEmail = true);
+        setState(() => canResendEmail = false);
+        await Future.delayed(const Duration(seconds: 5));
+        if (mounted) {
+          setState(() => canResendEmail = true);
+        }
+      }
     } catch (e) {
-      // ignore: use_build_context_synchronously
-      Utils.showSnackBar(context, e.toString());
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(e.toString()),
+          ),
+        );
+      }
     }
   }
 
   Future userSignOut() async {
-    FirebaseAuth.instance.signOut();
+    if (FirebaseAuth.instance.currentUser != null) {
+      await FirebaseAuth.instance.signOut();
+    }
   }
 
   @override
@@ -103,7 +115,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                   height: 50,
                 ),
                 loginSignupButton(
-                    context, mustard, 'Resent Email', sendVerificationEmail),
+                    context, mustard, 'Resend Email', sendVerificationEmail),
                 loginSignupButton(context, navy, 'Cancel', userSignOut),
               ]),
             )),

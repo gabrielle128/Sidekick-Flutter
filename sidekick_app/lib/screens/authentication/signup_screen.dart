@@ -1,10 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sidekick_app/main.dart';
-import 'package:sidekick_app/navigation_menu.dart';
 import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
-import 'package:sidekick_app/screens/authentication/login_screen.dart';
+import 'package:sidekick_app/routes.dart';
 import 'package:sidekick_app/utils/colours.dart';
 import 'package:sidekick_app/utils/utils.dart';
 
@@ -101,23 +101,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
             const Center(child: CircularProgressIndicator(color: yellow))));
 
     try {
-      await FirebaseAuth.instance
+      UserCredential? userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: _emailTextController.text,
-              password: _passwordTextController.text)
-          .then((value) {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const NavigationMenu()));
-      });
+              password: _passwordTextController.text);
+      // CALL CREATE USER DOCUMENT FUNCTION
+      createUserDocument(userCredential);
     } on FirebaseAuthException catch (e) {
-      // ignore: avoid_print
-      print(e);
-
       // ignore: use_build_context_synchronously
       Utils.showSnackBar(context, e.message);
     }
 
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
+  }
+
+  // TO ADD USER CREDENTIAL ON FIREBASE FIRESTORE
+  Future<void> createUserDocument(UserCredential? userCredential) async {
+    if (userCredential != null && userCredential.user != null) {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(userCredential.user!.email)
+          .set({
+        'email': userCredential.user!.email,
+        'user_id': userCredential.user!.uid
+      });
+    }
   }
 
   Row loginOption() {
@@ -128,8 +136,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             style: TextStyle(color: Colors.black)),
         GestureDetector(
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const LoginScreen()));
+            Navigator.pushNamed(context, AppRoutes.login);
           },
           child: const Text(
             " Sign in",

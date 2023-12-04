@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
-import 'package:sidekick_app/screens/authentication/login_screen.dart';
-import 'package:sidekick_app/screens/authentication/signup_screen.dart';
+import 'package:sidekick_app/routes.dart';
 import 'package:sidekick_app/utils/colours.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -29,21 +28,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             padding: EdgeInsets.fromLTRB(
                 20, MediaQuery.of(context).size.height * 0.2, 20, 0),
             child: Column(children: <Widget>[
-              logoWidget("assets/images/sidekick_logo.png"),
+              logoWidget("assets/images/sidekick_logo.png", 200, 200),
               const SizedBox(
                 height: 80,
               ),
               loginSignupButton(context, mustard, 'SIGN UP', () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SignUpScreen()));
+                Navigator.pushNamed(context, AppRoutes.signup);
               }),
               loginSignupButton(context, navy, 'LOG IN', () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const LoginScreen()));
+                Navigator.pushNamed(context, AppRoutes.login);
               }),
             ]),
           ),

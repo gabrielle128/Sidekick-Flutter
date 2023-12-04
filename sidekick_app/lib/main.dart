@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:sidekick_app/routes.dart';
 import 'package:sidekick_app/screens/authentication/verify_email.dart';
 import 'package:sidekick_app/screens/welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -38,10 +39,12 @@ class MyApp extends StatelessWidget {
       title: 'Sidekick',
       theme: ThemeData(
           scaffoldBackgroundColor: bgcolor,
+          primaryColor: yellow,
           fontFamily: 'Gaegu-Bold',
           appBarTheme: const AppBarTheme(backgroundColor: navy)),
       darkTheme: ThemeData(brightness: Brightness.dark),
       themeMode: ThemeMode.light,
+      onGenerateRoute: AppRoutes.onGenerateRoute,
       home: const MainPage(),
     );
   }
