@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AddTaskAlertDialog extends StatefulWidget {
   const AddTaskAlertDialog({
@@ -136,16 +137,35 @@ class _AddTaskAlertDialogState extends State<AddTaskAlertDialog> {
         ),
         ElevatedButton(
           onPressed: () {
-            final taskName = taskNameController.text;
-            final taskDesc = taskDescController.text;
-            final taskTag = selectedValue;
-            _addTasks(taskName: taskName, taskDesc: taskDesc, taskTag: taskTag);
-            Navigator.of(context, rootNavigator: true).pop();
+            if (_validateFields()) {
+              final taskName = taskNameController.text;
+              final taskDesc = taskDescController.text;
+              final taskTag = selectedValue;
+              _addTasks(
+                  taskName: taskName, taskDesc: taskDesc, taskTag: taskTag);
+              Navigator.of(context, rootNavigator: true).pop();
+            } else {
+              //Show a toast indicating fields are empty
+              Fluttertoast.showToast(
+                msg: 'An error occured. Please fill in all the fields.',
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.SNACKBAR,
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+                fontSize: 14.0,
+              );
+            }
           },
           child: const Text('Save'),
         ),
       ],
     );
+  }
+
+  bool _validateFields() {
+    return taskNameController.text.isNotEmpty &&
+        taskDescController.text.isNotEmpty &&
+        selectedValue.isNotEmpty;
   }
 
   Future _addTasks(
@@ -164,6 +184,16 @@ class _AddTaskAlertDialogState extends State<AddTaskAlertDialog> {
     await FirebaseFirestore.instance.collection('tasks').doc(taskId).update(
       {'id': taskId},
     );
+    //Showing a toast indicating task was added
+    Fluttertoast.showToast(
+      msg: 'Task Added.',
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.SNACKBAR,
+      backgroundColor: Colors.green,
+      textColor: Colors.white,
+      fontSize: 14.0,
+    );
+
     _clearAll();
   }
 
