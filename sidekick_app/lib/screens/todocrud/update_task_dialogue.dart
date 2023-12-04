@@ -23,7 +23,6 @@ class _UpdateTaskAlertDialogState extends State<UpdateTaskAlertDialog> {
   final TextEditingController taskDescController = TextEditingController();
   final List<String> taskTags = ['Work', 'School', 'Other'];
   String selectedValue = '';
-  bool updateError = false;
 
   @override
   Widget build(BuildContext context) {
@@ -136,35 +135,15 @@ class _UpdateTaskAlertDialogState extends State<UpdateTaskAlertDialog> {
           child: const Text('Cancel'),
         ),
         ElevatedButton(
-          onPressed: () async {
+          onPressed: () {
             final taskName = taskNameController.text;
             final taskDesc = taskDescController.text;
             var taskTag = '';
             selectedValue == ''
                 ? taskTag = widget.taskTag
                 : taskTag = selectedValue;
-            //check if the fields are empty
-            //Check if any of the fields is empty
-            if (taskName.isEmpty || taskDesc.isEmpty || taskTag.isEmpty) {
-              Fluttertoast.showToast(
-                msg: "Empty fields are not accepted",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.SNACKBAR,
-                backgroundColor: Colors.red,
-                textColor: Colors.white,
-                fontSize: 14.0,
-              );
-              setState(() {
-                updateError = true;
-              });
-              return;
-            }
-
-            await _updateTasks(taskName, taskDesc, taskTag);
-            if (!updateError) {
-              // ignore: use_build_context_synchronously
-              Navigator.of(context, rootNavigator: true).pop();
-            }
+            _updateTasks(taskName, taskDesc, taskTag);
+            Navigator.of(context, rootNavigator: true).pop();
           },
           child: const Text('Update'),
         ),
@@ -180,13 +159,12 @@ class _UpdateTaskAlertDialogState extends State<UpdateTaskAlertDialog> {
             {'taskName': taskName, 'taskDesc': taskDesc, 'taskTag': taskTag})
         .then(
           (_) => Fluttertoast.showToast(
-            msg: "Task updated successfully",
-            toastLength: Toast.LENGTH_LONG,
-            gravity: ToastGravity.SNACKBAR,
-            backgroundColor: Colors.black54,
-            textColor: Colors.white,
-            fontSize: 14.0,
-          ),
+              msg: "Task updated successfully",
+              toastLength: Toast.LENGTH_LONG,
+              gravity: ToastGravity.SNACKBAR,
+              backgroundColor: Colors.black54,
+              textColor: Colors.white,
+              fontSize: 14.0),
         )
         .catchError(
           (error) => Fluttertoast.showToast(
@@ -197,12 +175,5 @@ class _UpdateTaskAlertDialogState extends State<UpdateTaskAlertDialog> {
               textColor: Colors.white,
               fontSize: 14.0),
         );
-    //Clear the text fields after successful update
-    taskNameController.clear();
-    taskDescController.clear();
-    selectedValue = '';
-    setState(() {
-      updateError = false;
-    });
   }
 }
