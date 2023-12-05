@@ -6,8 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sidekick_app/reusable_widgets/journal_card.dart';
+import 'package:sidekick_app/screens/account/account_screen.dart';
 import 'package:sidekick_app/screens/journal_reader.dart';
 import 'package:sidekick_app/screens/journal_editor.dart';
+import 'package:sidekick_app/sidekick_icons_icons.dart';
+import 'package:sidekick_app/utils/colours.dart';
 
 class JournalScreen extends StatefulWidget {
   const JournalScreen({super.key});
@@ -21,18 +24,32 @@ class _JournalScreenState extends State<JournalScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0.0,
-        // title: Text("Journal Jonas"),
-        centerTitle: true,
         backgroundColor: Colors.transparent,
+        elevation: 0,
+        toolbarHeight: 90,
+        actions: <Widget>[
+          Padding(
+              padding: const EdgeInsets.fromLTRB(0, 10, 30, 0),
+              child: IconButton(
+                icon: const Icon(
+                  SidekickIcons.account,
+                  color: black,
+                  size: 50,
+                ),
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AccountScreen())),
+              ))
+        ],
       ),
       body: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Your Journal",
+              const Text("Your Journal",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 35)),
               const SizedBox(
                 height: 20.0,
@@ -44,15 +61,16 @@ class _JournalScreenState extends State<JournalScreen> {
                       .snapshots(),
                   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
+                      return const Center(
                         child: CircularProgressIndicator(),
                       );
                     }
 
                     if (snapshot.hasData) {
                       return GridView(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2),
                         children: snapshot.data!.docs
                             .map((journal) => journalCard(() {
                                   Navigator.push(
@@ -65,7 +83,7 @@ class _JournalScreenState extends State<JournalScreen> {
                             .toList(),
                       );
                     }
-                    return Text(
+                    return const Text(
                       "Empty List of Journal",
                     );
                   },
@@ -75,11 +93,13 @@ class _JournalScreenState extends State<JournalScreen> {
           )),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => JournalEditorScreen()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const JournalEditorScreen()));
         },
-        label: Text("Add Journal"),
-        icon: Icon(Icons.add),
+        label: const Text("Add Journal"),
+        icon: const Icon(Icons.add),
       ),
     );
   }

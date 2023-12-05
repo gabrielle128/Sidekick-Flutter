@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sidekick_app/style/app_style.dart';
 
+// ignore: must_be_immutable
 class JournalReaderScreen extends StatefulWidget {
   JournalReaderScreen(this.doc, {Key? key}) : super(key: key);
   QueryDocumentSnapshot doc;
@@ -13,6 +14,7 @@ class JournalReaderScreen extends StatefulWidget {
 class _JournalReaderScreenState extends State<JournalReaderScreen> {
   @override
   Widget build(BuildContext context) {
+    // ignore: non_constant_identifier_names
     int color_id = widget.doc['color_id'];
     return Scaffold(
       backgroundColor: AppStyle.cardsColor[color_id],
@@ -21,7 +23,7 @@ class _JournalReaderScreenState extends State<JournalReaderScreen> {
         elevation: 0.0,
       ),
       body: Padding(
-        padding: EdgeInsets.all(25.0),
+        padding: const EdgeInsets.all(25.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -29,14 +31,14 @@ class _JournalReaderScreenState extends State<JournalReaderScreen> {
               widget.doc["journal_title"],
               style: AppStyle.mainTitle,
             ),
-            SizedBox(
+            const SizedBox(
               height: 4.0,
             ),
             Text(
               widget.doc["creation_date"],
               style: AppStyle.mainDate,
             ),
-            SizedBox(
+            const SizedBox(
               height: 30.0,
             ),
             Text(widget.doc["journal_content"], style: AppStyle.mainContent),

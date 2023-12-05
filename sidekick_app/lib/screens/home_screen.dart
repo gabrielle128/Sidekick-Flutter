@@ -157,8 +157,10 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: yellow,
           label: 'Journal',
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => JournalEditorScreen()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const JournalEditorScreen()));
           },
         ),
         SpeedDialChild(
