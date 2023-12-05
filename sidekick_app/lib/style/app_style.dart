@@ -10,18 +10,14 @@ class AppStyle {
     Colors.purple.shade200,
     Colors.orange.shade200,
     Colors.red.shade100,
-
   ];
 
+  static TextStyle mainTitle =
+      GoogleFonts.gaegu(fontSize: 18.0, fontWeight: FontWeight.bold);
 
+  static TextStyle mainDate =
+      GoogleFonts.gaegu(fontSize: 12.0, fontWeight: FontWeight.normal);
 
-  static TextStyle mainTitle = 
-  GoogleFonts.roboto(fontSize: 18.0, fontWeight: FontWeight.bold);
-
-  static TextStyle mainDate = 
-  GoogleFonts.nunito(fontSize: 12.0, fontWeight: FontWeight.normal);
-
-  static TextStyle mainContent = 
-  GoogleFonts.nunito(fontSize: 16.0, fontWeight: FontWeight.normal);
+  static TextStyle mainContent =
+      GoogleFonts.gaegu(fontSize: 16.0, fontWeight: FontWeight.normal);
 }
- 

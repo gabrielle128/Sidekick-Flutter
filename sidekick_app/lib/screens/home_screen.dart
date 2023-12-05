@@ -6,6 +6,8 @@ import 'package:intl/intl.dart';
 import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
 import 'package:sidekick_app/screens/account/account_screen.dart';
 import 'package:sidekick_app/screens/event/event_model.dart';
+import 'package:sidekick_app/screens/journal_editor.dart';
+import 'package:sidekick_app/screens/todocrud/add_task_dialogue.dart';
 import 'package:sidekick_app/sidekick_icons_icons.dart';
 import 'package:sidekick_app/utils/colours.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -141,13 +143,23 @@ class _HomeScreenState extends State<HomeScreen> {
           child: const Icon(SidekickIcons.toDoList),
           backgroundColor: yellow,
           label: 'To Do',
-          onTap: () => showToast('Add To Do...'),
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return const AddTaskAlertDialog();
+              },
+            );
+          },
         ),
         SpeedDialChild(
           child: const Icon(SidekickIcons.journal),
           backgroundColor: yellow,
           label: 'Journal',
-          onTap: () => showToast('Add Journal...'),
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => JournalEditorScreen()));
+          },
         ),
         SpeedDialChild(
           child: const Icon(SidekickIcons.wallet),
