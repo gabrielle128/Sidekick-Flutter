@@ -48,6 +48,7 @@ dependencies:
   form_builder_validators: ^9.1.0
   get: ^4.6.6
   riverpod: ^2.4.8
+  google_fonts: ^6.1.0
 
 dev_dependencies:
   flutter_test:
