@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sidekick_app/style/app_style.dart';
+import 'package:intl/intl.dart';
 
 class JournalEditorScreen extends StatefulWidget {
   const JournalEditorScreen({Key? key}) : super(key: key);
@@ -14,7 +15,8 @@ class JournalEditorScreen extends StatefulWidget {
 
 class _JournalEditorScreenState extends State<JournalEditorScreen> {
   int color_id = Random().nextInt(AppStyle.cardsColor.length);
-  String date = DateTime.now().toString();
+  // var date = DateTime.now();
+  String formattedDate = DateFormat('dd/MM/yyyy | HH:mm:ss').format(DateTime.now());
 
   TextEditingController _titleController = TextEditingController();
   TextEditingController _mainController = TextEditingController();
@@ -48,7 +50,7 @@ class _JournalEditorScreenState extends State<JournalEditorScreen> {
               height: 18.0,
             ),
             Text(
-              date,
+              formattedDate,
               style: AppStyle.mainDate,
             ),
             const SizedBox(height: 28.0),
@@ -69,7 +71,7 @@ class _JournalEditorScreenState extends State<JournalEditorScreen> {
         onPressed: () async {
           FirebaseFirestore.instance.collection("journal").add({
             "color_id": color_id,
-            "creation_date": date,
+            "creation_date": formattedDate,
             "journal_content": _mainController.text,
             "journal_title": _titleController.text,
           }).then((value) {
