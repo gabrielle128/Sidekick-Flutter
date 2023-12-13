@@ -24,8 +24,8 @@ class _JournalEditorScreenState extends State<JournalEditorScreen>{
       appBar: AppBar(
         backgroundColor: AppStyle.cardsColor[color_id],
         elevation: 0.0,
-        iconTheme: IconThemeData(color: Colors.black),
-        title: Text("Add new journal", style: TextStyle(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
+        title: const Text("Add new journal", style: TextStyle(color: Colors.black),
         ),
       ),
       body: Padding(
