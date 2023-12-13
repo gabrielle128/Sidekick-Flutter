@@ -52,7 +52,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
       //   ],
       // ),
       extendBody: true,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showDialog(
