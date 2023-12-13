@@ -7,8 +7,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sidekick_app/reusable_widgets/journal_card.dart';
 import 'package:sidekick_app/screens/account/account_screen.dart';
-import 'package:sidekick_app/screens/journal_reader.dart';
-import 'package:sidekick_app/screens/journal_editor.dart';
+import 'package:sidekick_app/screens/journal/journal_reader.dart';
+import 'package:sidekick_app/screens/journal/journal_editor.dart';
 import 'package:sidekick_app/sidekick_icons_icons.dart';
 import 'package:sidekick_app/utils/colours.dart';
 
