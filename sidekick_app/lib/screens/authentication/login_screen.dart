@@ -44,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
               20, MediaQuery.of(context).size.height * 0.2, 20, 0),
           child: Column(children: <Widget>[
             const Text(
-              "Sidekick",
+              "Workada",
               style: TextStyle(color: black, fontSize: 50),
             ),
             const SizedBox(

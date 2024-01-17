@@ -2,6 +2,7 @@
 
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sidekick_app/style/app_style.dart';
 
@@ -18,6 +19,10 @@ class _JournalEditorScreenState extends State<JournalEditorScreen> {
 
   TextEditingController _titleController = TextEditingController();
   TextEditingController _mainController = TextEditingController();
+
+  late String userId;
+  late String userEmail;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +72,11 @@ class _JournalEditorScreenState extends State<JournalEditorScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          FirebaseFirestore.instance.collection("journal").add({
+          FirebaseFirestore.instance
+              .collection("journal")
+              .doc(userId)
+              .collection(userEmail)
+              .add({
             "color_id": color_id,
             "creation_date": date,
             "journal_content": _mainController.text,
@@ -79,5 +88,20 @@ class _JournalEditorScreenState extends State<JournalEditorScreen> {
         child: const Icon(Icons.save),
       ),
     );
+  }
+
+  // get user id and email from firestore
+  void getUser() {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      userId = user.uid;
+      userEmail = user.email!;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUser();
   }
 }

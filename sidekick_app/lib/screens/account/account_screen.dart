@@ -34,7 +34,7 @@ class _AccountScreenState extends State<AccountScreen> {
             padding: EdgeInsets.fromLTRB(
                 20, MediaQuery.of(context).size.height * 0.2, 20, 0),
             child: Column(children: <Widget>[
-              logoWidget("assets/images/sidekick_logo.png", 100, 100),
+              logoWidget("assets/images/workada_logo.png", 100, 100),
               const SizedBox(
                 height: 20,
               ),

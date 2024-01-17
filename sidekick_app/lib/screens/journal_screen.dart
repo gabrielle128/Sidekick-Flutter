@@ -1,5 +1,6 @@
 //import 'dart:html';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 //import 'package:sidekick_app/sidekick_icons_icons.dart';
 //import 'package:sidekick_app/utils/colours.dart';
@@ -20,6 +21,9 @@ class JournalScreen extends StatefulWidget {
 }
 
 class _JournalScreenState extends State<JournalScreen> {
+  late String userId;
+  late String userEmail;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,6 +62,8 @@ class _JournalScreenState extends State<JournalScreen> {
                 child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
                       .collection("journal")
+                      .doc(userId)
+                      .collection(userEmail)
                       .snapshots(),
                   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -102,5 +108,19 @@ class _JournalScreenState extends State<JournalScreen> {
         icon: const Icon(Icons.add),
       ),
     );
+  }
+
+  void getUser() {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      userId = user.uid;
+      userEmail = user.email!;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUser();
   }
 }
