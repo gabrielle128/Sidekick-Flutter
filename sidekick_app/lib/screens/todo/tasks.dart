@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sidekick_app/screens/todocrud/update_task_dialogue.dart';
 import 'package:sidekick_app/utils/colours.dart';
@@ -12,13 +13,19 @@ class Tasks extends StatefulWidget {
 
 class _TasksState extends State<Tasks> {
   final fireStore = FirebaseFirestore.instance;
+  late String userId;
+  late String userEmail;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(10.0),
       child: StreamBuilder<QuerySnapshot>(
-        stream: fireStore.collection('tasks').snapshots(),
+        stream: fireStore
+            .collection('tasks')
+            .doc(userId)
+            .collection(userEmail)
+            .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return const Text('No tasks to display');
@@ -120,5 +127,20 @@ class _TasksState extends State<Tasks> {
         },
       ),
     );
+  }
+
+  // get user id and email from firestore
+  void getUser() {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      userId = user.uid;
+      userEmail = user.email!;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUser();
   }
 }

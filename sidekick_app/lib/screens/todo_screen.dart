@@ -52,8 +52,9 @@ class _ToDoScreenState extends State<ToDoScreen> {
       //   ],
       // ),
       extendBody: true,
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
+        foregroundColor: black,
+        backgroundColor: yellow,
         onPressed: () {
           showDialog(
             context: context,

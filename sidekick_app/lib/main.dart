@@ -45,7 +45,54 @@ class MyApp extends StatelessWidget {
       darkTheme: ThemeData(brightness: Brightness.dark),
       themeMode: ThemeMode.light,
       onGenerateRoute: AppRoutes.onGenerateRoute,
-      home: const MainPage(),
+      home: const SplashScreen(),
+    );
+  }
+}
+
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Simulate a delay before navigating to the main screen
+    Future.delayed(const Duration(seconds: 2), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const MainPage()),
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/images/workada_logo.png',
+              width: 150, // Adjust the width as needed
+              height: 150, // Adjust the height as needed
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              'Workada',
+              style: TextStyle(
+                fontSize: 50,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

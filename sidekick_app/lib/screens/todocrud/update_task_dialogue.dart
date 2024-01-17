@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -24,6 +25,9 @@ class _UpdateTaskAlertDialogState extends State<UpdateTaskAlertDialog> {
   final List<String> taskTags = ['Work', 'School', 'Other'];
   String selectedValue = '';
   bool updateError = false;
+
+  late String userId;
+  late String userEmail;
 
   @override
   Widget build(BuildContext context) {
@@ -173,7 +177,10 @@ class _UpdateTaskAlertDialogState extends State<UpdateTaskAlertDialog> {
   }
 
   Future _updateTasks(String taskName, String taskDesc, String taskTag) async {
-    var collection = FirebaseFirestore.instance.collection('tasks');
+    var collection = FirebaseFirestore.instance
+        .collection('tasks')
+        .doc(userId)
+        .collection(userEmail);
     collection
         .doc(widget.taskId)
         .update(
@@ -204,5 +211,20 @@ class _UpdateTaskAlertDialogState extends State<UpdateTaskAlertDialog> {
     setState(() {
       updateError = false;
     });
+  }
+
+  // get user id and email from firestore
+  void getUser() {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      userId = user.uid;
+      userEmail = user.email!;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUser();
   }
 }

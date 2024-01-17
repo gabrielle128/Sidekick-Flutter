@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
 import 'package:sidekick_app/routes.dart';
 import 'package:sidekick_app/sidekick_icons_icons.dart';
@@ -78,7 +79,7 @@ class _AccountScreenState extends State<AccountScreen> {
               // TO DISPLAY ACCOUNT BUTTONS
               accountButton(
                   context, yellow, SidekickIcons.information, 'About Us', () {
-                showToast('About Us');
+                Navigator.pushNamed(context, AppRoutes.aboutus);
               }),
               accountButton(
                   context, yellow, SidekickIcons.feedback, 'Send Feedback', () {
@@ -95,7 +96,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 });
               }),
               accountButton(context, yellow, SidekickIcons.exit, 'Exit', () {
-                showToast('Exit');
+                SystemNavigator.pop();
               }),
             ]),
           ),

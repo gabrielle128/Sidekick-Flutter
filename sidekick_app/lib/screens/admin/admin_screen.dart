@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:sidekick_app/utils/colours.dart';
 
-class WalletScreen extends StatefulWidget {
-  const WalletScreen({super.key});
+class AdminScreen extends StatefulWidget {
+  const AdminScreen({super.key});
 
   @override
-  State<WalletScreen> createState() => _WalletScreenState();
+  State<AdminScreen> createState() => _AdminScreenState();
 }
 
-class _WalletScreenState extends State<WalletScreen> {
+class _AdminScreenState extends State<AdminScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +21,7 @@ class _WalletScreenState extends State<WalletScreen> {
               20, MediaQuery.of(context).size.height * 0.2, 20, 0),
           child: const Column(children: <Widget>[
             Text(
-              "Wallet Screen",
+              "Admin Screen",
               style: TextStyle(color: black, fontSize: 40),
             ),
             SizedBox(

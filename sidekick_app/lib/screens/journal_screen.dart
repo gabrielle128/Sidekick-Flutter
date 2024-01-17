@@ -98,6 +98,8 @@ class _JournalScreenState extends State<JournalScreen> {
             ],
           )),
       floatingActionButton: FloatingActionButton.extended(
+        foregroundColor: black,
+        backgroundColor: yellow,
         onPressed: () {
           Navigator.push(
               context,

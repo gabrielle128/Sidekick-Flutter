@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sidekick_app/main.dart';
 import 'package:sidekick_app/navigation_menu.dart';
+import 'package:sidekick_app/screens/account/aboutus_screen.dart';
+import 'package:sidekick_app/screens/admin/admin_screen.dart';
 import 'package:sidekick_app/screens/authentication/forgot_password.dart';
 import 'package:sidekick_app/screens/authentication/login_screen.dart';
 import 'package:sidekick_app/screens/authentication/signup_screen.dart';
@@ -12,6 +14,8 @@ class AppRoutes {
   static const signup = 'signup';
   static const String forgotPassword = 'forgot_password';
   static const navigation = 'navigation';
+  static const aboutus = 'about us';
+  static const admin = 'admin';
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     return MaterialPageRoute(
@@ -28,6 +32,10 @@ class AppRoutes {
               return const ForgotPassword();
             case navigation:
               return const NavigationMenu();
+            case aboutus:
+              return const AboutUsScreen();
+            case admin:
+              return const AdminScreen();
             case main:
             default:
               return const MainPage();

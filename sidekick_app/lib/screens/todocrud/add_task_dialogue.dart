@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -18,6 +19,9 @@ class _AddTaskAlertDialogState extends State<AddTaskAlertDialog> {
   final TextEditingController taskDescController = TextEditingController();
   final List<String> taskTags = ['Work', 'School', 'Other'];
   late String selectedValue = '';
+
+  late String userId;
+  late String userEmail;
 
   @override
   Widget build(BuildContext context) {
@@ -172,8 +176,11 @@ class _AddTaskAlertDialogState extends State<AddTaskAlertDialog> {
       {required String taskName,
       required String taskDesc,
       required String taskTag}) async {
-    DocumentReference docRef =
-        await FirebaseFirestore.instance.collection('tasks').add(
+    DocumentReference docRef = await FirebaseFirestore.instance
+        .collection('tasks')
+        .doc(userId)
+        .collection(userEmail)
+        .add(
       {
         'taskName': taskName,
         'taskDesc': taskDesc,
@@ -181,7 +188,12 @@ class _AddTaskAlertDialogState extends State<AddTaskAlertDialog> {
       },
     );
     String taskId = docRef.id;
-    await FirebaseFirestore.instance.collection('tasks').doc(taskId).update(
+    await FirebaseFirestore.instance
+        .collection('tasks')
+        .doc(userId)
+        .collection(userEmail)
+        .doc(taskId)
+        .update(
       {'id': taskId},
     );
     //Showing a toast indicating task was added
@@ -200,5 +212,20 @@ class _AddTaskAlertDialogState extends State<AddTaskAlertDialog> {
   void _clearAll() {
     taskNameController.text = '';
     taskDescController.text = '';
+  }
+
+  // get user id and email from firestore
+  void getUser() {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      userId = user.uid;
+      userEmail = user.email!;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUser();
   }
 }

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -13,6 +14,9 @@ class DeleteTaskDialog extends StatefulWidget {
 }
 
 class _DeleteTaskDialogState extends State<DeleteTaskDialog> {
+  late String userId;
+  late String userEmail;
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -66,7 +70,10 @@ class _DeleteTaskDialogState extends State<DeleteTaskDialog> {
   }
 
   Future _deleteTasks() async {
-    var collection = FirebaseFirestore.instance.collection('tasks');
+    var collection = FirebaseFirestore.instance
+        .collection('tasks')
+        .doc(userId)
+        .collection(userEmail);
     collection
         .doc(widget.taskId)
         .delete()
@@ -88,6 +95,21 @@ class _DeleteTaskDialogState extends State<DeleteTaskDialog> {
               textColor: Colors.white,
               fontSize: 14.0),
         );
+  }
+
+  // get user id and email from firestore
+  void getUser() {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      userId = user.uid;
+      userEmail = user.email!;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUser();
   }
 }
 
