@@ -93,29 +93,53 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Future login() async {
+  Future<void> login() async {
     showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: ((context) =>
-            const Center(child: CircularProgressIndicator(color: yellow))));
+      context: context,
+      barrierDismissible: false,
+      builder: ((context) => Center(
+            child: CircularProgressIndicator(
+              color: Colors.yellow, // Update with your desired color
+            ),
+          )),
+    );
 
     try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
-              email: _emailTextController.text,
-              password: _passwordTextController.text)
-          .then((value) {
-        Navigator.pushNamed(context, AppRoutes.navigation);
-      });
-    } on FirebaseAuthException catch (e) {
-      // ignore: avoid_print
-      print(e);
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailTextController.text,
+        password: _passwordTextController.text,
+      );
 
-      // ignore: use_build_context_synchronously
+      User? user = userCredential.user;
+
+      print("Entered Email: ${_emailTextController.text}");
+      print("User Email: ${user?.email}");
+
+      // Check if the user's email is not null before comparison
+      if (user?.email != null) {
+        await handleNavigation(user!.email!);
+      } else {
+        print("User email is null");
+        // Handle the case where user email is null (unexpected)
+      }
+    } on FirebaseAuthException catch (e) {
+      print(e);
       Utils.showSnackBar(context, e.message);
+    } finally {
+      Navigator.pop(context); // Close the loading dialog
     }
 
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
+  }
+
+  Future<void> handleNavigation(String userEmail) async {
+    if (userEmail == "gingineers.sidekick@gmail.com") {
+      print("Navigating to Admin Screen");
+      await Navigator.pushNamed(context, AppRoutes.admin);
+    } else {
+      print("Navigating to Navigation Screen");
+      await Navigator.pushNamed(context, AppRoutes.navigation);
+    }
   }
 }

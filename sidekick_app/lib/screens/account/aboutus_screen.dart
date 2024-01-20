@@ -90,7 +90,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                       imagePath: 'assets/images/gelo.jpg'),
                   const DeveloperRow(
                       developerName: 'Xypher Kelly Bumatay',
-                      imagePath: 'assets/images/xypher.jpg'),
+                      imagePath: 'assets/images/xypher.png'),
                 ]),
           ),
         ),

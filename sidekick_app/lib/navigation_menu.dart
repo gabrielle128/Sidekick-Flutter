@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sidekick_app/screens/home_screen.dart';
-import 'package:sidekick_app/screens/journal_screen.dart';
+import 'package:sidekick_app/screens/journal/journal_screen.dart';
 import 'package:sidekick_app/screens/todo_screen.dart';
 import 'package:sidekick_app/screens/wallet_screen.dart';
 import 'package:sidekick_app/sidekick_icons_icons.dart';

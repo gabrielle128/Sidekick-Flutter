@@ -160,3 +160,40 @@ Container accountButton(BuildContext context, Color color, IconData icon,
     ),
   );
 }
+
+Container adminButton(
+    BuildContext context, Color color, String text, Function onTap) {
+  return Container(
+    width: MediaQuery.of(context).size.width * 0.7,
+    height: 80,
+    margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+    decoration: BoxDecoration(borderRadius: BorderRadius.circular(90)),
+    child: ElevatedButton(
+      onPressed: () {
+        onTap();
+      },
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.resolveWith((states) {
+            if (states.contains(MaterialState.pressed)) {
+              return Colors.black26;
+            }
+            return color;
+          }),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)))),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            text,
+            style: const TextStyle(color: black, fontSize: 25),
+          ),
+        ],
+      ),
+      // child: Text(
+      //   text,
+      //   style: const TextStyle(color: black, fontSize: 20),
+      // ),
+    ),
+  );
+}

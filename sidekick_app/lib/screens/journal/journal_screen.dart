@@ -8,8 +8,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sidekick_app/reusable_widgets/journal_card.dart';
 import 'package:sidekick_app/screens/account/account_screen.dart';
-import 'package:sidekick_app/screens/journal_reader.dart';
-import 'package:sidekick_app/screens/journal_editor.dart';
+import 'package:sidekick_app/screens/journal/add_journal.dart';
+import 'package:sidekick_app/screens/journal/journal_reader.dart';
 import 'package:sidekick_app/sidekick_icons_icons.dart';
 import 'package:sidekick_app/utils/colours.dart';
 
@@ -104,7 +104,7 @@ class _JournalScreenState extends State<JournalScreen> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => const JournalEditorScreen()));
+                  builder: (context) => const AddJournalScreen()));
         },
         label: const Text("Add Journal"),
         icon: const Icon(Icons.add),

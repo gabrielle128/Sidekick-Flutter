@@ -4,16 +4,18 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sidekick_app/style/app_style.dart';
+import 'package:sidekick_app/utils/colours.dart';
 
-class JournalEditorScreen extends StatefulWidget {
-  const JournalEditorScreen({Key? key}) : super(key: key);
+class AddJournalScreen extends StatefulWidget {
+  const AddJournalScreen({Key? key}) : super(key: key);
 
   @override
-  State<JournalEditorScreen> createState() => _JournalEditorScreenState();
+  State<AddJournalScreen> createState() => _AddJournalScreenState();
 }
 
-class _JournalEditorScreenState extends State<JournalEditorScreen> {
+class _AddJournalScreenState extends State<AddJournalScreen> {
   int color_id = Random().nextInt(AppStyle.cardsColor.length);
   String date = DateTime.now().toString();
 
@@ -71,6 +73,8 @@ class _JournalEditorScreenState extends State<JournalEditorScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        foregroundColor: black,
+        backgroundColor: yellow,
         onPressed: () async {
           FirebaseFirestore.instance
               .collection("journal")
@@ -83,6 +87,12 @@ class _JournalEditorScreenState extends State<JournalEditorScreen> {
             "journal_title": _titleController.text,
           }).then((value) {
             Navigator.pop(context);
+            Fluttertoast.showToast(
+              msg: 'Journal Added.',
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.SNACKBAR,
+              fontSize: 15.0,
+            );
           });
         },
         child: const Icon(Icons.save),
