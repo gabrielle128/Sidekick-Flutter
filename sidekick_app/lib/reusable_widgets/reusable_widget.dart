@@ -1,12 +1,53 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sidekick_app/utils/colours.dart';
 
 // toast - placeholder for action buttons
-Future showToast(String message) async {
-  await Fluttertoast.cancel();
+class PopUpToast {
+  static void showToast(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 12.0,
+            color: Colors.black,
+          ),
+        ),
+        width: 250,
+        backgroundColor: Colors.white,
+        duration: Duration(seconds: 2),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+      ),
+    );
+  }
+}
 
-  Fluttertoast.showToast(msg: message, fontSize: 15);
+class DottedLinePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Paint paint = Paint()
+      ..color = Colors.black // Color of the dotted line
+      ..strokeWidth = 1 // Width of the dotted line
+      ..style = PaintingStyle.stroke;
+
+    const double dotRadius = 0.5; // Radius of each dot
+    const double dotSpace = 15; // Space between each dot
+
+    double startX = 0;
+    while (startX < size.width) {
+      canvas.drawCircle(Offset(startX, 0), dotRadius, paint);
+      startX += 2 * dotRadius + dotSpace;
+    }
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
+  }
 }
 
 // logo

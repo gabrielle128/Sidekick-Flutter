@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sidekick_app/main.dart';
 import 'package:sidekick_app/navigation_menu.dart';
 import 'package:sidekick_app/screens/account/aboutus_screen.dart';
+import 'package:sidekick_app/screens/account/addfeedback_screen.dart';
 import 'package:sidekick_app/screens/admin/admin_screen.dart';
 import 'package:sidekick_app/screens/admin/feedback_screen.dart';
 import 'package:sidekick_app/screens/admin/users_screen.dart';
@@ -20,6 +21,7 @@ class AppRoutes {
   static const admin = 'admin';
   static const users = 'users';
   static const feedback = 'feedback';
+  static const addFeedback = 'addFeedback';
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     return MaterialPageRoute(
@@ -44,6 +46,8 @@ class AppRoutes {
               return const UsersScreen();
             case feedback:
               return const FeedbackScreen();
+            case addFeedback:
+              return AddFeedback();
             case main:
             default:
               return const MainPage();

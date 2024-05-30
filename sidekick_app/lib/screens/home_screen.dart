@@ -7,7 +7,7 @@ import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
 import 'package:sidekick_app/screens/account/account_screen.dart';
 import 'package:sidekick_app/screens/event/event_model.dart';
 import 'package:sidekick_app/screens/journal/add_journal.dart';
-import 'package:sidekick_app/screens/todocrud/add_task_dialogue.dart';
+import 'package:sidekick_app/screens/todocrud/add_task_dialog.dart';
 import 'package:sidekick_app/sidekick_icons_icons.dart';
 import 'package:sidekick_app/utils/colours.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -45,6 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         toolbarHeight: 90,
+        automaticallyImplyLeading: false,
         actions: <Widget>[
           Padding(
               padding: const EdgeInsets.fromLTRB(0, 10, 30, 0),
@@ -167,7 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: const Icon(SidekickIcons.wallet),
           backgroundColor: yellow,
           label: 'Budget',
-          onTap: () => showToast('Add Budget...'),
+          onTap: () => PopUpToast.showToast(context, 'Add Budget...'),
         ),
         SpeedDialChild(
           child: const Icon(SidekickIcons.event),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
 import 'package:sidekick_app/routes.dart';
+import 'package:sidekick_app/screens/account/addfeedback_screen.dart';
 import 'package:sidekick_app/sidekick_icons_icons.dart';
 import 'package:sidekick_app/utils/colours.dart';
 
@@ -83,7 +84,12 @@ class _AccountScreenState extends State<AccountScreen> {
               }),
               accountButton(
                   context, yellow, SidekickIcons.feedback, 'Send Feedback', () {
-                showToast('Send Feedback');
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const AddFeedback();
+                  },
+                );
               }),
               accountButton(context, yellow, SidekickIcons.changePassword,
                   'Change Password', () {

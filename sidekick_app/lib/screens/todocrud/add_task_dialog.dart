@@ -3,7 +3,8 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
+import 'package:sidekick_app/utils/colours.dart';
 
 class AddTaskAlertDialog extends StatefulWidget {
   const AddTaskAlertDialog({
@@ -150,16 +151,13 @@ class _AddTaskAlertDialogState extends State<AddTaskAlertDialog> {
               Navigator.of(context, rootNavigator: true).pop();
             } else {
               //Show a toast indicating fields are empty
-              Fluttertoast.showToast(
-                msg: 'An error occured. Please fill in all the fields.',
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.SNACKBAR,
-                backgroundColor: Colors.red,
-                textColor: Colors.white,
-                fontSize: 14.0,
-              );
+              PopUpToast.showToast(
+                  context, 'An error occurred. Please fill in all the fields.');
             }
           },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: navy,
+          ),
           child: const Text('Save'),
         ),
       ],
@@ -188,7 +186,7 @@ class _AddTaskAlertDialogState extends State<AddTaskAlertDialog> {
       },
     );
     String taskId = docRef.id;
-    await FirebaseFirestore.instance
+    FirebaseFirestore.instance
         .collection('tasks')
         .doc(userId)
         .collection(userEmail)
@@ -197,14 +195,7 @@ class _AddTaskAlertDialogState extends State<AddTaskAlertDialog> {
       {'id': taskId},
     );
     //Showing a toast indicating task was added
-    Fluttertoast.showToast(
-      msg: 'Task Added.',
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.SNACKBAR,
-      backgroundColor: Colors.green,
-      textColor: Colors.white,
-      fontSize: 14.0,
-    );
+    PopUpToast.showToast(context, 'Task added.');
 
     _clearAll();
   }

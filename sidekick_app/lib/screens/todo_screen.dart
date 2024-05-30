@@ -1,10 +1,8 @@
-// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sidekick_app/screens/todocrud/add_task_dialogue.dart';
+import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
+import 'package:sidekick_app/screens/todocrud/add_task_dialog.dart';
 import 'package:sidekick_app/screens/todo/tasks.dart';
 import 'package:sidekick_app/screens/todo/categories.dart';
-import 'package:sidekick_app/screens/account/account_screen.dart';
-import 'package:sidekick_app/sidekick_icons_icons.dart';
 import 'package:sidekick_app/utils/colours.dart';
 
 class ToDoScreen extends StatefulWidget {
@@ -21,36 +19,44 @@ class _ToDoScreenState extends State<ToDoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        toolbarHeight: 90,
-        actions: <Widget>[
-          Padding(
-              padding: const EdgeInsets.fromLTRB(0, 10, 30, 0),
-              child: IconButton(
-                icon: const Icon(
-                  SidekickIcons.account,
-                  color: black,
-                  size: 50,
-                ),
-                onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const AccountScreen())),
-              ))
-        ],
+      body: Container(
+        margin: EdgeInsets.symmetric(
+            horizontal: 16.0), // Add margin to the left and right
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(height: 50.0), // Added space above the "To-Do" text
+            const Center(
+              child: Text(
+                "To-Do",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 35),
+              ),
+            ),
+            const SizedBox(height: 10.0),
+            Container(
+              width: double.infinity,
+              height: 2, // Increase the height to make the dotted line visible
+              margin: EdgeInsets.symmetric(vertical: 8.0),
+              child: CustomPaint(
+                painter: DottedLinePainter(),
+              ),
+            ),
+            Expanded(
+              child: PageView(
+                controller: pageController,
+                children: const <Widget>[
+                  Center(
+                    child: Tasks(),
+                  ),
+                  Center(
+                    child: Categories(),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
-      // appBar: AppBar(
-      //   centerTitle: true,
-      //   title: const Text("To-Do List"),
-      //   actions: [
-      //     IconButton(
-      //       onPressed: () {},
-      //       icon: const Icon(CupertinoIcons.calendar),
-      //     ),
-      //   ],
-      // ),
       extendBody: true,
       floatingActionButton: FloatingActionButton(
         foregroundColor: black,
@@ -64,17 +70,6 @@ class _ToDoScreenState extends State<ToDoScreen> {
           );
         },
         child: const Icon(Icons.add),
-      ),
-      body: PageView(
-        controller: pageController,
-        children: const <Widget>[
-          Center(
-            child: Tasks(),
-          ),
-          Center(
-            child: Categories(),
-          ),
-        ],
       ),
     );
   }

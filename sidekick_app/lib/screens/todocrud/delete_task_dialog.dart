@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
 
 class DeleteTaskDialog extends StatefulWidget {
   final String taskId, taskName;
@@ -78,23 +78,8 @@ class _DeleteTaskDialogState extends State<DeleteTaskDialog> {
         .doc(widget.taskId)
         .delete()
         .then(
-          (_) => Fluttertoast.showToast(
-              msg: "Task deleted successfully",
-              toastLength: Toast.LENGTH_LONG,
-              gravity: ToastGravity.SNACKBAR,
-              backgroundColor: Colors.black54,
-              textColor: Colors.white,
-              fontSize: 14.0),
-        )
-        .catchError(
-          (error) => Fluttertoast.showToast(
-              msg: "Failed: $error",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.SNACKBAR,
-              backgroundColor: Colors.black54,
-              textColor: Colors.white,
-              fontSize: 14.0),
-        );
+            (_) => PopUpToast.showToast(context, 'Task deleted successfully.'))
+        .catchError((error) => PopUpToast.showToast(context, 'Failed: $error'));
   }
 
   // get user id and email from firestore

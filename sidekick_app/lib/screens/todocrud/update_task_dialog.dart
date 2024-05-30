@@ -3,7 +3,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
 
 class UpdateTaskAlertDialog extends StatefulWidget {
   final String taskId, taskName, taskDesc, taskTag;
@@ -150,14 +150,7 @@ class _UpdateTaskAlertDialogState extends State<UpdateTaskAlertDialog> {
             //check if the fields are empty
             //Check if any of the fields is empty
             if (taskName.isEmpty || taskDesc.isEmpty || taskTag.isEmpty) {
-              Fluttertoast.showToast(
-                msg: "Empty fields are not accepted",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.SNACKBAR,
-                backgroundColor: Colors.red,
-                textColor: Colors.white,
-                fontSize: 14.0,
-              );
+              PopUpToast.showToast(context, 'Empty fields are not accepted.');
               setState(() {
                 updateError = true;
               });
@@ -186,24 +179,8 @@ class _UpdateTaskAlertDialogState extends State<UpdateTaskAlertDialog> {
         .update(
             {'taskName': taskName, 'taskDesc': taskDesc, 'taskTag': taskTag})
         .then(
-          (_) => Fluttertoast.showToast(
-            msg: "Task updated successfully",
-            toastLength: Toast.LENGTH_LONG,
-            gravity: ToastGravity.SNACKBAR,
-            backgroundColor: Colors.black54,
-            textColor: Colors.white,
-            fontSize: 14.0,
-          ),
-        )
-        .catchError(
-          (error) => Fluttertoast.showToast(
-              msg: "Failed: $error",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.SNACKBAR,
-              backgroundColor: Colors.black54,
-              textColor: Colors.white,
-              fontSize: 14.0),
-        );
+            (_) => PopUpToast.showToast(context, 'Task updated successfully.'))
+        .catchError((error) => PopUpToast.showToast(context, 'Failed: $error'));
     //Clear the text fields after successful update
     taskNameController.clear();
     taskDescController.clear();

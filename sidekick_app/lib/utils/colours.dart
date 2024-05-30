@@ -7,7 +7,6 @@ hexStringToColor(String hexColor) {
   }
   return Color(int.parse(hexColor, radix: 16));
 }
-
 // LIST OF COLORS
 
 const bgcolor = Color(0xFFDEDAD7);
@@ -36,3 +35,21 @@ const redShadeColor = Color(0xFF9c677d);
 const salmonColor = Color(0xFFef8076);
 const greenShadeColor = Color(0xFF667b51);
 const blueShadeColor = Color(0xFF5871b6);
+
+// color palette
+const color1 = Color(0xFFFFFFFF);
+const color2 = Color(0xFFF0F0F2);
+const color3 = Color(0xFFFDFD96);
+const color4 = Color(0xFFF7C289);
+const color5 = Color(0xFFD9B29C);
+const color6 = Color(0xFFFFB6B3);
+const color7 = Color(0xFFF7DCEA);
+const color8 = Color(0xFFD5B9B1);
+const color9 = Color(0xFFC784AF);
+const color10 = Color(0xFFBCAFBD);
+const color11 = Color(0xFF7393C2);
+const color12 = Color(0xFFB6C7DD);
+const color13 = Color(0xFFB4CBD9);
+const color14 = Color(0xFF8D9365);
+const color15 = Color(0xFFC1B985);
+const color16 = Color(0xFFA7DBC8);

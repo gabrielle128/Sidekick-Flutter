@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:sidekick_app/screens/todocrud/update_task_dialogue.dart';
+import 'package:sidekick_app/screens/todocrud/update_task_dialog.dart';
 import 'package:sidekick_app/utils/colours.dart';
-import 'package:sidekick_app/screens/todocrud/delete_task_dialogue.dart';
+import 'package:sidekick_app/screens/todocrud/delete_task_dialog.dart';
 
 class Tasks extends StatefulWidget {
   const Tasks({super.key});
@@ -19,7 +19,7 @@ class _TasksState extends State<Tasks> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(10.0),
+      margin: const EdgeInsets.all(25.0),
       child: StreamBuilder<QuerySnapshot>(
         stream: fireStore
             .collection('tasks')
@@ -42,16 +42,18 @@ class _TasksState extends State<Tasks> {
                   taskColor = greenShadeColor;
                 }
                 return Container(
-                  height: 100,
                   margin: const EdgeInsets.only(bottom: 15.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15.0),
                     color: Colors.white,
-                    boxShadow: const [
+                    boxShadow: [
                       BoxShadow(
-                        color: shadowColor,
-                        blurRadius: 5.0,
-                        offset: Offset(0, 5), // shadow direction: bottom right
+                        color: Colors.black
+                            .withOpacity(0.2), // Black color with 30% opacity
+                        spreadRadius: 1,
+                        blurRadius: 3,
+                        offset:
+                            const Offset(0, 3), // Changes position of shadow
                       ),
                     ],
                   ),
@@ -65,8 +67,21 @@ class _TasksState extends State<Tasks> {
                         backgroundColor: taskColor,
                       ),
                     ),
-                    title: Text(data['taskName']),
-                    subtitle: Text(data['taskDesc']),
+                    title: Text(
+                      data['taskName'],
+                      style: TextStyle(fontSize: 18.0),
+                    ),
+                    subtitle: Container(
+                      constraints: BoxConstraints(
+                        maxHeight: 40.0, // Adjust the maxHeight if needed
+                      ),
+                      child: Text(
+                        data['taskDesc'],
+                        overflow: TextOverflow.fade,
+                        maxLines: 2, // Ensure it does not overflow vertically
+                        style: TextStyle(fontSize: 16.0),
+                      ),
+                    ),
                     isThreeLine: true,
                     trailing: PopupMenuButton(
                       itemBuilder: (context) {
