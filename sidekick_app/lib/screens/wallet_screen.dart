@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
+import 'package:sidekick_app/screens/wallet/add_expense.dart';
 import 'package:sidekick_app/screens/wallet/data.dart';
 import 'package:sidekick_app/screens/wallet/stat_screen.dart';
 import 'package:sidekick_app/utils/colours.dart';
@@ -19,7 +20,7 @@ class _WalletScreenState extends State<WalletScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        toolbarHeight: 70,
+        toolbarHeight: 60,
         automaticallyImplyLeading: false,
         actions: <Widget>[
           Padding(
@@ -28,7 +29,7 @@ class _WalletScreenState extends State<WalletScreen> {
                 icon: const Icon(
                   Icons.analytics_outlined, // stats icon
                   color: black,
-                  size: 50,
+                  size: 40,
                 ),
                 onPressed: () => Navigator.push(
                     context,
@@ -51,7 +52,7 @@ class _WalletScreenState extends State<WalletScreen> {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 35),
               ),
             ),
-            const SizedBox(height: 20.0),
+            const SizedBox(height: 10.0),
             Container(
               width: double.infinity,
               height: 1,
@@ -73,13 +74,14 @@ class _WalletScreenState extends State<WalletScreen> {
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    SizedBox(height: 5),
                     Text(
                       'Total Balance',
                       style: TextStyle(fontSize: 25),
                     ),
                     SizedBox(height: 5),
-                    Text('₱ 500.00', style: TextStyle(fontSize: 40)),
-                    SizedBox(height: 5),
+                    Text('₱ 500.00', style: TextStyle(fontSize: 35)),
+                    // SizedBox(height: 5),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 12, horizontal: 20),
@@ -109,7 +111,7 @@ class _WalletScreenState extends State<WalletScreen> {
                                   Text('Income',
                                       style: TextStyle(fontSize: 20)),
                                   Text('₱ 2,500.00',
-                                      style: TextStyle(fontSize: 20)),
+                                      style: TextStyle(fontSize: 16)),
                                 ],
                               )
                             ],
@@ -212,10 +214,10 @@ class _WalletScreenState extends State<WalletScreen> {
                                     children: [
                                       Text(walletData[i]['totalAmount'],
                                           style: TextStyle(
-                                              fontSize: 20, color: black)),
+                                              fontSize: 16, color: black)),
                                       Text(walletData[i]['date'],
                                           style: TextStyle(
-                                              fontSize: 20, color: grey)),
+                                              fontSize: 16, color: grey)),
                                     ],
                                   )
                                 ]),
@@ -230,14 +232,15 @@ class _WalletScreenState extends State<WalletScreen> {
         foregroundColor: black,
         backgroundColor: yellow,
         onPressed: () {
-          // showDialog(
-          //   context: context,
-          //   builder: (BuildContext context) {
-          //     return const AddJournalScreen();
-          //   },
-          // );
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return const AddExpense();
+            },
+          );
         },
         child: const Icon(Icons.add),
+        shape: const CircleBorder(),
       ),
     );
   }

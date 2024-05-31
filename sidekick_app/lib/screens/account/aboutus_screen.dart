@@ -22,7 +22,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
           color: black,
         ),
         backgroundColor: bgcolor,
-        elevation: 5,
+        // elevation: 5,
       ),
       body: SizedBox(
         width: MediaQuery.of(context).size.width,

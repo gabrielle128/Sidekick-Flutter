@@ -26,7 +26,7 @@ class _AccountScreenState extends State<AccountScreen> {
           color: black,
         ),
         backgroundColor: bgcolor,
-        elevation: 5,
+        // elevation: 5,
       ),
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
@@ -50,9 +50,8 @@ class _AccountScreenState extends State<AccountScreen> {
                 child: ElevatedButton(
                   onPressed: () {},
                   style: ButtonStyle(
-                      backgroundColor:
-                          const MaterialStatePropertyAll(bgcolorCV),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      backgroundColor: const WidgetStatePropertyAll(bgcolorCV),
+                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30)))),
                   child: Row(

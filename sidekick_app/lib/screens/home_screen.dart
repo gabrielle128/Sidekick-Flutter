@@ -8,6 +8,7 @@ import 'package:sidekick_app/screens/account/account_screen.dart';
 import 'package:sidekick_app/screens/event/event_model.dart';
 import 'package:sidekick_app/screens/journal/add_journal.dart';
 import 'package:sidekick_app/screens/todo/add_task_dialog.dart';
+import 'package:sidekick_app/screens/wallet/add_expense.dart';
 import 'package:sidekick_app/utils/sidekick_icons_icons.dart';
 import 'package:sidekick_app/utils/colours.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -117,7 +118,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
               ),
             ),
-            const Divider(),
+            const Divider(
+              color: Colors.grey,
+            ),
             const SizedBox(height: 10),
             _buildEventList(),
             const SizedBox(height: 20),
@@ -168,7 +171,14 @@ class _HomeScreenState extends State<HomeScreen> {
           child: const Icon(SidekickIcons.wallet),
           backgroundColor: yellow,
           label: 'Budget',
-          onTap: () => PopUpToast.showToast(context, 'Add Budget...'),
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return const AddExpense();
+              },
+            );
+          },
         ),
         SpeedDialChild(
           child: const Icon(SidekickIcons.event),
@@ -509,9 +519,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     }
                   },
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(navy),
+                    backgroundColor: WidgetStateProperty.all<Color>(navy),
                   ),
-                  child: const Text('Save'),
+                  child: const Text(
+                    'Save',
+                    style: TextStyle(color: white),
+                  ),
                 ),
               ],
             );
@@ -615,9 +628,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 });
               },
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(navy),
+                backgroundColor: WidgetStateProperty.all<Color>(navy),
               ),
-              child: const Text('Update'),
+              child: const Text(
+                'Update',
+                style: TextStyle(color: white),
+              ),
             ),
           ],
         );

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:sidekick_app/firebase_options.dart';
 import 'package:sidekick_app/routes.dart';
 import 'package:sidekick_app/screens/authentication/verify_email.dart';
+import 'package:sidekick_app/screens/wallet/add_expense.dart';
 import 'package:sidekick_app/screens/welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:sidekick_app/utils/colours.dart';
@@ -38,14 +39,22 @@ class MyApp extends StatelessWidget {
       navigatorKey: navigatorKey,
       title: 'Workada',
       theme: ThemeData(
+          colorScheme: ColorScheme.light(
+              surface: bgcolor,
+              onSurface: black,
+              primary: mustard,
+              secondary: navy,
+              tertiary: moss,
+              outline: grey),
           scaffoldBackgroundColor: bgcolor,
           primaryColor: yellow,
           fontFamily: 'Gaegu-Bold',
-          appBarTheme: const AppBarTheme(backgroundColor: navy)),
+          appBarTheme: const AppBarTheme(backgroundColor: bgcolor)),
       darkTheme: ThemeData(brightness: Brightness.dark),
       themeMode: ThemeMode.light,
       onGenerateRoute: AppRoutes.onGenerateRoute,
-      home: const SplashScreen(),
+      home: AddExpense(),
+      // home: const SplashScreen(),
     );
   }
 }

@@ -99,6 +99,7 @@ class _JournalScreenState extends State<JournalScreen> {
           );
         },
         child: const Icon(Icons.add),
+        shape: const CircleBorder(),
       ),
     );
   }

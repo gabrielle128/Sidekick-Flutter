@@ -62,9 +62,12 @@ class _AddFeedbackState extends State<AddFeedback> {
             Navigator.of(context, rootNavigator: true).pop();
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.grey,
+            backgroundColor: grey,
           ),
-          child: const Text('Cancel'),
+          child: const Text(
+            'Cancel',
+            style: TextStyle(color: white),
+          ),
         ),
         ElevatedButton(
           onPressed: () {
@@ -81,7 +84,10 @@ class _AddFeedbackState extends State<AddFeedback> {
           style: ElevatedButton.styleFrom(
             backgroundColor: navy,
           ),
-          child: const Text('Save'),
+          child: const Text(
+            'Save',
+            style: TextStyle(color: white),
+          ),
         ),
       ],
     );

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
+import 'package:sidekick_app/utils/colours.dart';
 
 class DeleteTaskDialog extends StatefulWidget {
   final String taskId, taskName;
@@ -51,9 +52,12 @@ class _DeleteTaskDialogState extends State<DeleteTaskDialog> {
             Navigator.of(context, rootNavigator: true).pop();
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.grey,
+            backgroundColor: grey,
           ),
-          child: const Text('Cancel'),
+          child: const Text(
+            'Cancel',
+            style: TextStyle(color: white),
+          ),
         ),
         ElevatedButton(
           onPressed: () {
@@ -61,9 +65,12 @@ class _DeleteTaskDialogState extends State<DeleteTaskDialog> {
             Navigator.of(context, rootNavigator: true).pop();
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.brown,
+            backgroundColor: navy,
           ),
-          child: const Text('Delete'),
+          child: const Text(
+            'Delete',
+            style: TextStyle(color: white),
+          ),
         ),
       ],
     );

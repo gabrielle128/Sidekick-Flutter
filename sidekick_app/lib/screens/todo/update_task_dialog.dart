@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
+import 'package:sidekick_app/utils/colours.dart';
 
 class UpdateTaskAlertDialog extends StatefulWidget {
   final String taskId, taskName, taskDesc, taskTag;
@@ -130,11 +131,15 @@ class _UpdateTaskAlertDialogState extends State<UpdateTaskAlertDialog> {
             Navigator.of(context, rootNavigator: true).pop();
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.grey,
+            backgroundColor: grey,
           ),
-          child: const Text('Cancel'),
+          child: const Text(
+            'Cancel',
+            style: TextStyle(color: white),
+          ),
         ),
         ElevatedButton(
+          style: ElevatedButton.styleFrom(backgroundColor: navy),
           onPressed: () async {
             final taskName = taskNameController.text;
             final taskDesc = taskDescController.text;
@@ -158,7 +163,10 @@ class _UpdateTaskAlertDialogState extends State<UpdateTaskAlertDialog> {
               Navigator.of(context, rootNavigator: true).pop();
             }
           },
-          child: const Text('Update'),
+          child: const Text(
+            'Update',
+            style: TextStyle(color: white),
+          ),
         ),
       ],
     );

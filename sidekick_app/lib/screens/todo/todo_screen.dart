@@ -71,6 +71,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
           );
         },
         child: const Icon(Icons.add),
+        shape: const CircleBorder(),
       ),
     );
   }

@@ -10,16 +10,24 @@ class StatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: const BackButton(
+          color: black,
+        ),
+        backgroundColor: bgcolor,
+      ),
       body: Container(
         margin: EdgeInsets.symmetric(
             horizontal: 16.0), // Add margin to the left and right
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            SizedBox(height: 50.0), // Added space above the "To-Do" text
-            Text(
-              "Transactions",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+            // SizedBox(height: 50.0),
+            Center(
+              child: Text(
+                "Transactions",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+              ),
             ),
             SizedBox(height: 10.0),
             Container(
@@ -32,12 +40,17 @@ class StatScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20.0),
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.width,
-              // color: red,
-              // child: const MyChart(),
-            )
+            Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    color: white, borderRadius: BorderRadius.circular(12)),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(12, 20, 12, 12),
+                  child: const MyChart(),
+                )
+                // color: red,
+                )
           ],
         ),
       ),
