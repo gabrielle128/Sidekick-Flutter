@@ -53,8 +53,8 @@ class MyApp extends StatelessWidget {
       darkTheme: ThemeData(brightness: Brightness.dark),
       themeMode: ThemeMode.light,
       onGenerateRoute: AppRoutes.onGenerateRoute,
-      home: AddExpense(),
-      // home: const SplashScreen(),
+      // home: AddExpense(),
+      home: const SplashScreen(),
     );
   }
 }
