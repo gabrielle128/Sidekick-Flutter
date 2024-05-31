@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sidekick_app/sidekick_icons_icons.dart';
+import 'package:sidekick_app/utils/sidekick_icons_icons.dart';
 import 'package:sidekick_app/utils/colours.dart';
 
 class CustomBlockPicker extends StatefulWidget {

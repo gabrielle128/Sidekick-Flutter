@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
-import 'package:sidekick_app/screens/todocrud/add_task_dialog.dart';
+import 'package:sidekick_app/screens/todo/add_task_dialog.dart';
 import 'package:sidekick_app/screens/todo/tasks.dart';
 import 'package:sidekick_app/screens/todo/categories.dart';
 import 'package:sidekick_app/utils/colours.dart';
@@ -34,6 +34,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
             ),
             const SizedBox(height: 10.0),
             Container(
+              padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
               width: double.infinity,
               height: 2, // Increase the height to make the dotted line visible
               margin: EdgeInsets.symmetric(vertical: 8.0),

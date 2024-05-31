@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
 import 'package:sidekick_app/screens/journal/app_style.dart';
 import 'package:sidekick_app/screens/journal/color_picker_dialog.dart';
-import 'package:sidekick_app/sidekick_icons_icons.dart';
+import 'package:sidekick_app/utils/sidekick_icons_icons.dart';
 
 class EditJournalScreen extends StatefulWidget {
   EditJournalScreen(this.doc, {Key? key}) : super(key: key);
@@ -89,7 +89,7 @@ class _EditJournalScreenState extends State<EditJournalScreen> {
             Align(
               alignment: Alignment.centerRight,
               child: Text(
-                widget.doc["timestamp"],
+                widget.doc["formatted_timestamp"],
                 style: AppStyle.mainDate,
               ),
             ),

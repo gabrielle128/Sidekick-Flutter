@@ -69,17 +69,22 @@ class _DeleteTaskDialogState extends State<DeleteTaskDialog> {
     );
   }
 
-  Future _deleteTasks() async {
-    var collection = FirebaseFirestore.instance
-        .collection('tasks')
-        .doc(userId)
-        .collection(userEmail);
-    collection
-        .doc(widget.taskId)
-        .delete()
-        .then(
-            (_) => PopUpToast.showToast(context, 'Task deleted successfully.'))
-        .catchError((error) => PopUpToast.showToast(context, 'Failed: $error'));
+  Future<void> _deleteTasks() async {
+    try {
+      var collection = FirebaseFirestore.instance
+          .collection('tasks')
+          .doc(userId)
+          .collection(userEmail);
+      await collection.doc(widget.taskId).delete();
+
+      if (mounted) {
+        PopUpToast.showToast(context, 'Task deleted successfully.');
+      }
+    } catch (error) {
+      if (mounted) {
+        PopUpToast.showToast(context, 'Failed to delete task: $error');
+      }
+    }
   }
 
   // get user id and email from firestore
@@ -96,11 +101,9 @@ class _DeleteTaskDialogState extends State<DeleteTaskDialog> {
     super.initState();
     getUser();
   }
-}
 
-// final collection = FirebaseFirestore.instance.collection('collection');
-// collection
-//     .doc('some_id') // <-- Doc ID to be deleted.
-// .delete() // <-- Delete
-//     .then((_) => print('Deleted'))
-// .catchError((error) => print('Delete failed: $error'));
+  @override
+  void dispose() {
+    super.dispose();
+  }
+}

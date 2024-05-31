@@ -8,6 +8,8 @@ Widget journalCard(
     BuildContext context, Function()? onTap, QueryDocumentSnapshot doc) {
   Color journalColor =
       Color(doc["journal_color"]); // Fetch and convert journal_color to Color
+  String formattedDate =
+      doc["formatted_timestamp"]; // Get the formatted timestamp
 
   return InkWell(
     onTap: onTap,
@@ -82,7 +84,7 @@ Widget journalCard(
           Align(
             alignment: Alignment.centerRight,
             child: Text(
-              doc["timestamp"],
+              formattedDate,
               style: AppStyle.mainDate,
             ),
           ),

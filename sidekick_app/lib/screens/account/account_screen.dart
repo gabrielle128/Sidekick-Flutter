@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
 import 'package:sidekick_app/routes.dart';
 import 'package:sidekick_app/screens/account/addfeedback_screen.dart';
-import 'package:sidekick_app/sidekick_icons_icons.dart';
+import 'package:sidekick_app/utils/sidekick_icons_icons.dart';
 import 'package:sidekick_app/utils/colours.dart';
 
 class AccountScreen extends StatefulWidget {

@@ -4,34 +4,42 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
-import 'package:sidekick_app/utils/colours.dart';
 
-class AddTaskAlertDialog extends StatefulWidget {
-  const AddTaskAlertDialog({
-    super.key,
-  });
+class UpdateTaskAlertDialog extends StatefulWidget {
+  final String taskId, taskName, taskDesc, taskTag;
+
+  const UpdateTaskAlertDialog(
+      {super.key,
+      required this.taskId,
+      required this.taskName,
+      required this.taskDesc,
+      required this.taskTag});
 
   @override
-  State<AddTaskAlertDialog> createState() => _AddTaskAlertDialogState();
+  State<UpdateTaskAlertDialog> createState() => _UpdateTaskAlertDialogState();
 }
 
-class _AddTaskAlertDialogState extends State<AddTaskAlertDialog> {
+class _UpdateTaskAlertDialogState extends State<UpdateTaskAlertDialog> {
   final TextEditingController taskNameController = TextEditingController();
   final TextEditingController taskDescController = TextEditingController();
   final List<String> taskTags = ['Work', 'School', 'Other'];
-  late String selectedValue = '';
+  String selectedValue = '';
+  bool updateError = false;
 
   late String userId;
   late String userEmail;
 
   @override
   Widget build(BuildContext context) {
+    taskNameController.text = widget.taskName;
+    taskDescController.text = widget.taskDesc;
+
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     return AlertDialog(
       scrollable: true,
       title: const Text(
-        'New Task',
+        'Update Task',
         textAlign: TextAlign.center,
         style: TextStyle(fontSize: 16, color: Colors.brown),
       ),
@@ -49,8 +57,6 @@ class _AddTaskAlertDialogState extends State<AddTaskAlertDialog> {
                     horizontal: 20,
                     vertical: 20,
                   ),
-                  hintText: 'Task',
-                  hintStyle: const TextStyle(fontSize: 14),
                   icon: const Icon(CupertinoIcons.square_list,
                       color: Colors.brown),
                   border: OutlineInputBorder(
@@ -69,8 +75,6 @@ class _AddTaskAlertDialogState extends State<AddTaskAlertDialog> {
                     horizontal: 20,
                     vertical: 20,
                   ),
-                  hintText: 'Description',
-                  hintStyle: const TextStyle(fontSize: 14),
                   icon: const Icon(CupertinoIcons.bubble_left_bubble_right,
                       color: Colors.brown),
                   border: OutlineInputBorder(
@@ -93,17 +97,7 @@ class _AddTaskAlertDialogState extends State<AddTaskAlertDialog> {
                         ),
                       ),
                       isExpanded: true,
-                      hint: const Text(
-                        'Add a task tag',
-                        style: TextStyle(fontSize: 14),
-                      ),
-                      // buttonHeight: 60,
-                      // buttonPadding: const EdgeInsets.only(left: 20, right: 10),
-                      // dropdownDecoration: BoxDecoration(
-                      //   borderRadius: BorderRadius.circular(15),
-                      // ),
-                      // validator: (value) => value == null
-                      //     ? 'Please select the task tag' : null,
+                      value: widget.taskTag,
                       items: taskTags
                           .map(
                             (item) => DropdownMenuItem<String>(
@@ -141,68 +135,62 @@ class _AddTaskAlertDialogState extends State<AddTaskAlertDialog> {
           child: const Text('Cancel'),
         ),
         ElevatedButton(
-          onPressed: () {
-            if (_validateFields()) {
-              final taskName = taskNameController.text;
-              final taskDesc = taskDescController.text;
-              final taskTag = selectedValue;
-              _addTasks(
-                  taskName: taskName, taskDesc: taskDesc, taskTag: taskTag);
+          onPressed: () async {
+            final taskName = taskNameController.text;
+            final taskDesc = taskDescController.text;
+            var taskTag = '';
+            selectedValue == ''
+                ? taskTag = widget.taskTag
+                : taskTag = selectedValue;
+            // Check if any of the fields is empty
+            if (taskName.isEmpty || taskDesc.isEmpty || taskTag.isEmpty) {
+              if (mounted) {
+                PopUpToast.showToast(context, 'Empty fields are not accepted.');
+              }
+              setState(() {
+                updateError = true;
+              });
+              return;
+            }
+
+            await _updateTasks(taskName, taskDesc, taskTag);
+            if (!updateError && mounted) {
               Navigator.of(context, rootNavigator: true).pop();
-            } else {
-              //Show a toast indicating fields are empty
-              PopUpToast.showToast(
-                  context, 'An error occurred. Please fill in all the fields.');
             }
           },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: navy,
-          ),
-          child: const Text('Save'),
+          child: const Text('Update'),
         ),
       ],
     );
   }
 
-  bool _validateFields() {
-    return taskNameController.text.isNotEmpty &&
-        taskDescController.text.isNotEmpty &&
-        selectedValue.isNotEmpty;
-  }
-
-  Future _addTasks(
-      {required String taskName,
-      required String taskDesc,
-      required String taskTag}) async {
-    DocumentReference docRef = await FirebaseFirestore.instance
-        .collection('tasks')
-        .doc(userId)
-        .collection(userEmail)
-        .add(
-      {
-        'taskName': taskName,
-        'taskDesc': taskDesc,
-        'taskTag': taskTag,
-      },
-    );
-    String taskId = docRef.id;
-    FirebaseFirestore.instance
-        .collection('tasks')
-        .doc(userId)
-        .collection(userEmail)
-        .doc(taskId)
-        .update(
-      {'id': taskId},
-    );
-    //Showing a toast indicating task was added
-    PopUpToast.showToast(context, 'Task added.');
-
-    _clearAll();
-  }
-
-  void _clearAll() {
-    taskNameController.text = '';
-    taskDescController.text = '';
+  Future<void> _updateTasks(
+      String taskName, String taskDesc, String taskTag) async {
+    try {
+      var collection = FirebaseFirestore.instance
+          .collection('tasks')
+          .doc(userId)
+          .collection(userEmail);
+      await collection.doc(widget.taskId).update(
+          {'taskName': taskName, 'taskDesc': taskDesc, 'taskTag': taskTag});
+      if (mounted) {
+        PopUpToast.showToast(context, 'Task updated successfully.');
+      }
+      // Clear the text fields after successful update
+      taskNameController.clear();
+      taskDescController.clear();
+      selectedValue = '';
+      setState(() {
+        updateError = false;
+      });
+    } catch (error) {
+      if (mounted) {
+        PopUpToast.showToast(context, 'Failed to update task: $error');
+      }
+      setState(() {
+        updateError = true;
+      });
+    }
   }
 
   // get user id and email from firestore
@@ -218,5 +206,12 @@ class _AddTaskAlertDialogState extends State<AddTaskAlertDialog> {
   void initState() {
     super.initState();
     getUser();
+  }
+
+  @override
+  void dispose() {
+    taskNameController.dispose();
+    taskDescController.dispose();
+    super.dispose();
   }
 }

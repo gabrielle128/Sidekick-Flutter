@@ -36,8 +36,9 @@ class _JournalScreenState extends State<JournalScreen> {
             ),
             const SizedBox(height: 10.0),
             Container(
+              padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
               width: double.infinity,
-              height: 1,
+              height: 2,
               margin: EdgeInsets.symmetric(vertical: 8.0),
               child: CustomPaint(
                 painter: DottedLinePainter(),

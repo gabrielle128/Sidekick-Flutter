@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:sidekick_app/reusable_widgets/reusable_widget.dart';
 import 'package:sidekick_app/screens/journal/app_style.dart';
 import 'package:sidekick_app/screens/journal/color_picker_dialog.dart';
-import 'package:sidekick_app/sidekick_icons_icons.dart';
+import 'package:sidekick_app/utils/sidekick_icons_icons.dart';
 import 'package:sidekick_app/utils/colours.dart';
 
 class AddJournalScreen extends StatefulWidget {
@@ -58,7 +58,8 @@ class _AddJournalScreenState extends State<AddJournalScreen> {
             icon: Icon(SidekickIcons.save),
             color: Colors.black,
             onPressed: () async {
-              String formattedTimestamp = _formatTimestamp(DateTime.now());
+              DateTime now = DateTime.now();
+              String formattedTimestamp = _formatTimestamp(now);
 
               FirebaseFirestore.instance
                   .collection("journal")
@@ -67,7 +68,9 @@ class _AddJournalScreenState extends State<AddJournalScreen> {
                   .add({
                 "journal_color":
                     selectedColor.value, // Save selected color value
-                "timestamp": formattedTimestamp,
+                "timestamp": now, // Save the DateTime object for ordering
+                "formatted_timestamp":
+                    formattedTimestamp, // Save the formatted timestamp for display
                 "journal_content": _mainController.text,
                 "journal_title": _titleController.text,
               }).then((value) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:sidekick_app/sidekick_icons_icons.dart';
+import 'package:sidekick_app/utils/sidekick_icons_icons.dart';
 import 'package:sidekick_app/utils/colours.dart'; // Import Firestore
 
 class UsersScreen extends StatefulWidget {

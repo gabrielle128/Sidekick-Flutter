@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorKey: navigatorKey,
-      title: 'Sidekick',
+      title: 'Workada',
       theme: ThemeData(
           scaffoldBackgroundColor: bgcolor,
           primaryColor: yellow,

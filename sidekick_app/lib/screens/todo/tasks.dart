@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:sidekick_app/screens/todocrud/update_task_dialog.dart';
+import 'package:sidekick_app/screens/todo/update_task_dialog.dart';
 import 'package:sidekick_app/utils/colours.dart';
-import 'package:sidekick_app/screens/todocrud/delete_task_dialog.dart';
+import 'package:sidekick_app/screens/todo/delete_task_dialog.dart';
 
 class Tasks extends StatefulWidget {
   const Tasks({super.key});
@@ -19,7 +19,7 @@ class _TasksState extends State<Tasks> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(25.0),
+      margin: const EdgeInsets.all(8.0),
       child: StreamBuilder<QuerySnapshot>(
         stream: fireStore
             .collection('tasks')
@@ -42,7 +42,7 @@ class _TasksState extends State<Tasks> {
                   taskColor = greenShadeColor;
                 }
                 return Container(
-                  margin: const EdgeInsets.only(bottom: 15.0),
+                  margin: const EdgeInsets.only(bottom: 20.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15.0),
                     color: Colors.white,
